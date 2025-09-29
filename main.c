@@ -6,25 +6,28 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 17:44:38 by brensant          #+#    #+#             */
-/*   Updated: 2025/09/26 21:05:03 by brensant         ###   ########.fr       */
+/*   Updated: 2025/09/28 21:49:12 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include <stdlib.h>
+
 #include "mlx.h"
 
-#define SC_W 720
-#define SC_H 720
+#define SC_W 1600
+#define SC_H 900
 
 /*
- * MEMBER    |  UNDERLYING TYPE  |  CONTENTS
- * mlx_ptr		 t_xvar				Display + info
- * win_ptr		 t_win_list			Window + info
- * img_ptr		 t_img				Image + info
- * img_addr							pointer to the actual image data
- * bit_depth						image's bits per pixel
- * line_len							image's bytes per line
- * endian							how the bytes are organized
+ * MEMBER    |  UNDERLYING TYPE  | CONTENTS
+ * mlx_ptr   |       t_xvar      | Display + metadata
+ * win_ptr   |     t_win_list    | Window + metadata
+ * img_ptr   |       t_img       | Image + metadata
+ * ----------+-------------------+----------------------------------------------
+ * img_addr  |       char *      | Pointer to Image data (array of pixels)
+ * bit_depth |        int        | Image bits per pixel
+ * line_len  |        int        | Image bytes per line
+ * endian    |        int        | System byte order (0 -> LE, !0 -> BE)
  */
 typedef struct s_mlx
 {
@@ -74,16 +77,47 @@ void	init_mlx(t_mlx *mlx)
 		finish_mlx(mlx, EXIT_FAILURE);
 }
 
-int	handle_no_event(void *nothing)
+void	img_pixel_put(t_mlx *mlx, int x, int y, int color)
 {
-	return (0 && nothing);
+	char	*addr;
+	int		i;
+
+	if (x > SC_W || y > SC_H)
+		return ;
+	addr = mlx->img_addr + (y * mlx->line_len + x * mlx->bit_depth / 8);
+	i = mlx->bit_depth - 8;
+	while (i >= 0)
+	{
+		if (mlx->endian != 0)
+			*addr = (color >> i) & 0xFF;
+		else
+			*addr = (color >> (mlx->bit_depth - 8 - i)) & 0xFF;
+		addr++;
+		i -= 8;
+	}
 }
 
-int	handle_input(int keysym, t_mlx *mlx)
+int	render(t_mlx *mlx)
 {
+	if (mlx->win_ptr)
+	{
+		mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->img_ptr, 0, 0);
+	}
+	return (0);
+}
+
+int	handle_keypress(int keysym, t_mlx *mlx)
+{
+	printf("KeyPress: %#x\n", keysym);
 	if (keysym == 0xff1b)
 		finish_mlx(mlx, EXIT_SUCCESS);
 	return (0);
+}
+
+int	handle_keyrelease(int keysym, t_mlx *mlx)
+{
+	printf("KeyRelease: %#x\n", keysym);
+	return (0 && mlx);
 }
 
 int	main(void)
@@ -91,8 +125,9 @@ int	main(void)
 	t_mlx	mlx;
 
 	init_mlx(&mlx);
-	mlx_loop_hook(mlx.mlx_ptr, handle_no_event, &mlx);
-	mlx_key_hook(mlx.win_ptr, handle_input, &mlx);
+	mlx_loop_hook(mlx.mlx_ptr, render, &mlx);
+	mlx_hook(mlx.win_ptr, 2, (1L << 0), handle_keypress, &mlx);
+	mlx_hook(mlx.win_ptr, 3, (1L << 1), handle_keyrelease, &mlx);
 	mlx_loop(mlx.mlx_ptr);
 	finish_mlx(&mlx, EXIT_SUCCESS);
 	return (0);
