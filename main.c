@@ -6,39 +6,20 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 17:44:38 by brensant          #+#    #+#             */
-/*   Updated: 2025/09/28 21:49:12 by brensant         ###   ########.fr       */
+/*   Updated: 2025/09/29 17:43:51 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 #include "mlx.h"
+#include "header.h"
 
-#define SC_W 1600
-#define SC_H 900
-
-/*
- * MEMBER    |  UNDERLYING TYPE  | CONTENTS
- * mlx_ptr   |       t_xvar      | Display + metadata
- * win_ptr   |     t_win_list    | Window + metadata
- * img_ptr   |       t_img       | Image + metadata
- * ----------+-------------------+----------------------------------------------
- * img_addr  |       char *      | Pointer to Image data (array of pixels)
- * bit_depth |        int        | Image bits per pixel
- * line_len  |        int        | Image bytes per line
- * endian    |        int        | System byte order (0 -> LE, !0 -> BE)
- */
-typedef struct s_mlx
-{
-	void	*mlx_ptr;
-	void	*win_ptr;
-	void	*img_ptr;
-	char	*img_addr;
-	int		bit_depth;
-	int		line_len;
-	int		endian;
-}	t_mlx;
+float	angle = 0;
+t_point origin = {SC_W / 2, SC_H / 2};
+t_point destination;
 
 void	finish_mlx(t_mlx *mlx, int exit_status)
 {
@@ -82,7 +63,7 @@ void	img_pixel_put(t_mlx *mlx, int x, int y, int color)
 	char	*addr;
 	int		i;
 
-	if (x > SC_W || y > SC_H)
+	if (x > SC_W || y > SC_H || x < 0 || y < 0)
 		return ;
 	addr = mlx->img_addr + (y * mlx->line_len + x * mlx->bit_depth / 8);
 	i = mlx->bit_depth - 8;
@@ -99,9 +80,15 @@ void	img_pixel_put(t_mlx *mlx, int x, int y, int color)
 
 int	render(t_mlx *mlx)
 {
+	static float	theta;
+
 	if (mlx->win_ptr)
 	{
+		destination.x = origin.x + 500 * cosf(theta);
+		destination.y = origin.y + 500 * sinf(theta);
+		draw_line(mlx, origin, destination);
 		mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->img_ptr, 0, 0);
+		theta += 1;
 	}
 	return (0);
 }
