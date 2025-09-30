@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 16:07:10 by brensant          #+#    #+#             */
-/*   Updated: 2025/09/29 17:45:10 by brensant         ###   ########.fr       */
+/*   Updated: 2025/09/30 19:59:31 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,18 @@ typedef struct s_mlx
 	int		endian;
 }	t_mlx;
 
-typedef struct s_point
+typedef struct s_point2
 {
 	int	x;
 	int	y;
-}	t_point;
+}	t_point2;
+
+typedef struct s_point3
+{
+	int	x;
+	int	y;
+	int z;
+}	t_point3;
 
 typedef struct s_vector2
 {
@@ -50,7 +57,23 @@ typedef struct s_vector2
 	float	y;
 }	t_vector2;
 
+typedef struct s_vector3
+{
+	float	x;
+	float	y;
+	float	z;
+}	t_vector3;
+
+typedef struct s_map
+{
+	t_point3	*points;
+	int 		rows;
+	int 		cols;
+}	t_map;
+
 void	img_pixel_put(t_mlx *mlx, int x, int y, int color);
-void	draw_line(t_mlx *mlx, t_point p0, t_point p1);
+void	draw_line(t_mlx *mlx, t_point2 p0, t_point2 p1);
+// int		is_map_valid(const char *filename);
+int		parse_file(const char *filename, t_map *map);
 
 #endif

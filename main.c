@@ -6,20 +6,17 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 17:44:38 by brensant          #+#    #+#             */
-/*   Updated: 2025/09/29 17:43:51 by brensant         ###   ########.fr       */
+/*   Updated: 2025/09/30 16:02:32 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 
 #include "mlx.h"
-#include "header.h"
 
-float	angle = 0;
-t_point origin = {SC_W / 2, SC_H / 2};
-t_point destination;
+#include "header.h"
 
 void	finish_mlx(t_mlx *mlx, int exit_status)
 {
@@ -80,15 +77,9 @@ void	img_pixel_put(t_mlx *mlx, int x, int y, int color)
 
 int	render(t_mlx *mlx)
 {
-	static float	theta;
-
 	if (mlx->win_ptr)
 	{
-		destination.x = origin.x + 500 * cosf(theta);
-		destination.y = origin.y + 500 * sinf(theta);
-		draw_line(mlx, origin, destination);
 		mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->img_ptr, 0, 0);
-		theta += 1;
 	}
 	return (0);
 }
@@ -107,10 +98,13 @@ int	handle_keyrelease(int keysym, t_mlx *mlx)
 	return (0 && mlx);
 }
 
-int	main(void)
+int	main(int argc, char *argv[])
 {
 	t_mlx	mlx;
+	t_map	map;
 
+	if (argc == 2)
+		parse_file(argv[1], &map);
 	init_mlx(&mlx);
 	mlx_loop_hook(mlx.mlx_ptr, render, &mlx);
 	mlx_hook(mlx.win_ptr, 2, (1L << 0), handle_keypress, &mlx);
