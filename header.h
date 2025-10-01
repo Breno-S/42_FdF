@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 16:07:10 by brensant          #+#    #+#             */
-/*   Updated: 2025/09/30 19:59:31 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/01 16:19:04 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,15 @@
 # define SC_H 900
 
 /*
- * MEMBER    |  UNDERLYING TYPE  | CONTENTS
- * mlx_ptr   |       t_xvar      | Display + metadata
- * win_ptr   |     t_win_list    | Window + metadata
- * img_ptr   |       t_img       | Image + metadata
- * ----------+-------------------+----------------------------------------------
- * img_addr  |       char *      | Pointer to Image data (array of pixels)
- * bit_depth |        int        | Image bits per pixel
- * line_len  |        int        | Image bytes per line
- * endian    |        int        | System byte order (0 -> LE, !0 -> BE)
+ * |  MEMBER   | UNDERLYING TYPE | CONTENTS                                |
+ * | --------- | --------------- | --------------------------------------- |
+ * | mlx_ptr   | `t_xvar`        | Display + metadata                      |
+ * | win_ptr   | `t_win_list`    | Window + metadata                       |
+ * | img_ptr   | `t_img`         | Image + metadata                        |
+ * | img_addr  | `char *`        | Pointer to Image data (array of pixels) |
+ * | bit_depth | `int`           | Image bits per pixel                    |
+ * | line_len  | `int`           | Image bytes per line                    |
+ * | endian    | `int`           | System byte order (0 -> LE, !0 -> BE)   |
  */
 typedef struct s_mlx
 {
@@ -48,7 +48,7 @@ typedef struct s_point3
 {
 	int	x;
 	int	y;
-	int z;
+	int	z;
 }	t_point3;
 
 typedef struct s_vector2
@@ -67,13 +67,11 @@ typedef struct s_vector3
 typedef struct s_map
 {
 	t_point3	*points;
-	int 		rows;
-	int 		cols;
+	t_point2	dimensions;
 }	t_map;
 
 void	img_pixel_put(t_mlx *mlx, int x, int y, int color);
 void	draw_line(t_mlx *mlx, t_point2 p0, t_point2 p1);
-// int		is_map_valid(const char *filename);
 int		parse_file(const char *filename, t_map *map);
 
 #endif

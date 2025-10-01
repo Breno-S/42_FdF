@@ -6,34 +6,47 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 13:23:34 by brensant          #+#    #+#             */
-/*   Updated: 2025/09/30 16:17:43 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/01 16:11:08 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	get_w_count(const char *s, char delimiter)
-{
-	int	w_count;
+#include <stdio.h>
+#include <stdlib.h>
+#include <fcntl.h>
 
-	w_count = 0;
-	while (*s)
-	{
-		while (*s == delimiter)
-			s++;
-		if (!*s)
-			break ;
-		while (*s != delimiter && *s)
-			s++;
-		w_count++;
-	}
-	return (w_count);
+/*
+ * Counts the number of elements present in a null-terminated array of strings,
+ * like the ones returned by `ft_split()`.
+ *
+ * Returns:
+ * - Number of strings in the array.
+ */
+int	count_split(char **split)
+{
+	int	count;
+
+	count = 0;
+	while (split[count])
+		count++;
+	return (count);
 }
 
-int	get_w_len(const char *s, char delimiter)
+/*
+ * Opens the given file in read-only mode. Exits the program
+ * in case of errors.
+ *
+ * Returns:
+ * - File descriptor.
+ */
+int	open_file_r(const char *filename)
 {
-	int	w_len;
+	int	fd;
 
-	w_len = 0;
-	while (s[w_len] && s[w_len] != delimiter)
-		w_len++;
-	return (w_len);
+	fd = open(filename, O_RDONLY);
+	if (fd == -1)
+	{
+		perror("open() failed");
+		exit(EXIT_FAILURE);
+	}
+	return (fd);
 }

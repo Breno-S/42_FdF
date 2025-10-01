@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 12:55:23 by brensant          #+#    #+#             */
-/*   Updated: 2025/09/30 20:03:02 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/01 16:23:09 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,108 +17,68 @@
 #include "header.h"
 #include "libft.h"
 
-static int	get_file_num_lines(const char *filename)
+static void	get_map_dimensions(const char *filename, t_map *map)
 {
-	int		fd;
-	char	*line;
-	int		num_lines;
+	int			fd;
+	char		*line;
+	char		**line_split;
+	int			num_words;
+	t_point2	dimensions;
 
-	fd = open(filename, O_RDONLY);
-	if (fd == -1)
-	{
-		perror("Error:");
-		exit(EXIT_FAILURE);
-	}
-	num_lines = 0;
+	fd = open_file_r(filename);
+	dimensions.x = -1;
+	dimensions.y = 0;
 	line = get_next_line(fd);
 	while (line)
 	{
+		line_split = ft_split(line, ' ');
+		num_words = count_split(line_split);
+		if (dimensions.x == -1)
+			dimensions.x = num_words;
+		if (num_words > dimensions.x)
+			dimensions.x = num_words;
+		free(line_split);
 		free(line);
-		num_lines++;
 		line = get_next_line(fd);
+		dimensions.y++;
 	}
+	map->dimensions = dimensions;
 	close(fd);
-	return (num_lines);
 }
 
-static int	get_file_points_per_line(const char *filename)
+static void	extract_values(char **line_split, int row, t_map *map)
 {
-	int		fd;
-	char	*line;
-	int		points_per_line;
+	int	cols;
 
-	points_per_line = 0;
-	fd = open(filename, O_RDONLY);
-	if (fd == -1)
+	cols = 0;
+	while (*line_split)
 	{
-		perror("open() failed:");
-		exit(EXIT_FAILURE);
+		map->points[row * map->dimensions.x + cols].x = cols;
+		map->points[row * map->dimensions.x + cols].y = row;
+		map->points[row * map->dimensions.x + cols].z = ft_atoi(*line_split);
+		line_split++;
+		cols++;
 	}
-	line = get_next_line(fd);
-	if (line)
-	{
-		points_per_line = get_w_count(line, ' ');
-		free(line);
-	}
-	return (points_per_line);
 }
 
-/*
- * Verifies if the file has a valid (rectangular) map.
- */
-static int	is_map_valid(const char *filename)
+static void	get_map_points(const char *filename, t_map *map)
 {
-	int		fd;
-	char	*line;
-	int		points_per_line;
+	int			fd;
+	char		*line;
+	char		**line_split;
+	int			row;
 
-	fd = open(filename, O_RDONLY);
-	if (fd == -1)
-	{
-		perror("open() failed:");
-		exit(EXIT_FAILURE);
-	}
+	fd = open_file_r(filename);
+	row = 0;
 	line = get_next_line(fd);
-	if (line)
-		points_per_line = get_w_count(line, ' ');
 	while (line)
 	{
+		line_split = ft_split(line, ' ');
+		extract_values(line_split, row, map);
+		free(line_split);
 		free(line);
 		line = get_next_line(fd);
-		if (line)
-			if (get_w_count(line, ' ') != points_per_line)
-				return (0);
-	}
-	close(fd);
-	return (1);
-}
-
-void	fill_map_points(const char *filename, t_map *map)
-{
-	int		fd;
-	char 	*line;
-	int		i;
-	int		j;
-
-	fd = open(filename, O_RDONLY);
-	if (fd == -1)
-		exit(EXIT_FAILURE);
-	i = 0;
-	line = get_next_line(fd);
-	while (i < map->rows && line)
-	{
-		j = 0;
-		while (j < map->cols)
-		{
-			map->points[i * map->cols + j].x = j;
-			map->points[i * map->cols + j].y = i;
-			map->points[i * map->cols + j].z = ft_atoi(line);
-			line += get_w_len(line, ' ');
-			j++;
-		}
-		free(line);
-		line = get_next_line(fd);
-		i++;
+		row++;
 	}
 	close(fd);
 }
@@ -132,11 +92,16 @@ void	fill_map_points(const char *filename, t_map *map)
  */
 int	parse_file(const char *filename, t_map *map)
 {
-	if (!is_map_valid(filename) || !map)
-		return (0);
-	map->rows = get_file_num_lines(filename);
-	map->cols = get_file_points_per_line(filename);
-	map->points = ft_calloc(map->rows * map->cols, sizeof(*(map->points)));
-	fill_map_points(filename, map);
+	get_map_dimensions(filename, map);
+	if (map->dimensions.x == 0 || map->dimensions.y == 0)
+	{
+		// TODO: print custom message with ft_printf().
+		exit(EXIT_FAILURE);
+	}
+	map->points = ft_calloc(map->dimensions.x * map->dimensions.y,
+			sizeof(t_point3));
+	if (!map->points)
+		exit(EXIT_FAILURE);
+	get_map_points(filename, map);
 	return (1);
 }
