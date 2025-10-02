@@ -6,16 +6,16 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 12:55:23 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/02 16:06:08 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/02 17:38:40 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <fcntl.h>
 #include <stdio.h>
 
 #include "fdf_utils.h"
 #include "header.h"
 #include "libft.h"
+#include "transform.h"
 
 static void	get_map_dimensions(const char *filename, t_map *map)
 {
@@ -49,16 +49,17 @@ static void	get_map_dimensions(const char *filename, t_map *map)
 static void	extract_values(char **line_split, int row, t_map *map)
 {
 	int	cols;
-	int	test_gap; // distance between adjacent points for debugging purposes
 
 	cols = 0;
-	test_gap = 50;
-	while (*line_split)
+	while (cols < map->dimensions.x)
 	{
-		map->points[row * map->dimensions.x + cols].x = test_gap * cols;
-		map->points[row * map->dimensions.x + cols].y = test_gap * row;
-		map->points[row * map->dimensions.x + cols].z = ft_atoi(*line_split);
-		line_split++;
+		map->points[row * map->dimensions.x + cols].x = cols;
+		map->points[row * map->dimensions.x + cols].y = row;
+		if (*line_split)
+		{
+			map->points[row * map->dimensions.x + cols].z = ft_atoi(*line_split);
+			line_split++;
+		}
 		cols++;
 	}
 }
@@ -102,4 +103,26 @@ void	parse_map(const char *filename, t_map *map)
 	if (!map->points)
 		exit(EXIT_FAILURE);
 	get_map_points(filename, map);
+	// // USE XYZ SCALING TRANSFORMATION TO ZOOM
+	for (int i = 0; i < map->dimensions.y; i++)
+	{
+		for (int j = 0; j < map->dimensions.x; j++)
+		{
+			map->points[i * map->dimensions.x + j] = point3_scale(map->points[i * map->dimensions.x + j], 50);
+		}
+	}
+	// PRINT MAP
+	for (int i = 0; i < map->dimensions.y; i++)
+	{
+		for (int j = 0; j < map->dimensions.x; j++)
+		{
+			printf(
+				"(%d, %d, %d) ",
+				map->points[i * map->dimensions.x + j].x,
+				map->points[i * map->dimensions.x + j].y,
+				map->points[i * map->dimensions.x + j].z
+			);
+		}
+		printf("\n");
+	}
 }

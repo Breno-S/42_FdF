@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 16:07:10 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/02 16:04:20 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/02 16:51:14 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,6 @@ typedef struct s_mlx
 	t_map	map;
 }	t_mlx;
 
-void	parse_map(const char *filename, t_map *map);
+void		parse_map(const char *filename, t_map *map);
 
 #endif
