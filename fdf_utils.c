@@ -6,13 +6,33 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 13:23:34 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/01 16:11:08 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/02 14:39:45 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
+
+/*
+ * Frees a null-terminated array of strings,
+ * like the ones returned by `ft_split()`.
+ *
+ */
+void	free_split(char	**split)
+{
+	int	i;
+
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		split[i] = NULL;
+		i++;
+	}
+	free(split);
+	split = NULL;
+}
 
 /*
  * Counts the number of elements present in a null-terminated array of strings,

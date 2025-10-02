@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 16:10:36 by brensant          #+#    #+#             */
-/*   Updated: 2025/09/30 13:20:59 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/02 14:11:59 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "mlx.h"
 #include "header.h"
 
-void	draw_line(t_mlx *mlx, t_point2 p0, t_point2 p1)
+void	draw_line(t_mlx *mlx, t_point3 p0, t_point3 p1)
 {
 	t_vector2	delta;
 	t_vector2	step;

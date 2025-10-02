@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 17:44:38 by brensant          #+#    #+#             */
-/*   Updated: 2025/09/30 16:02:32 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/02 14:21:24 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 
 void	finish_mlx(t_mlx *mlx, int exit_status)
 {
+	if (mlx->map.points)
+		free(mlx->map.points);
 	if (mlx->img_ptr)
 		mlx_destroy_image(mlx->mlx_ptr, mlx->img_ptr);
 	if (mlx->win_ptr)
@@ -79,6 +81,7 @@ int	render(t_mlx *mlx)
 {
 	if (mlx->win_ptr)
 	{
+		draw_map(mlx);
 		mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->img_ptr, 0, 0);
 	}
 	return (0);
@@ -101,10 +104,9 @@ int	handle_keyrelease(int keysym, t_mlx *mlx)
 int	main(int argc, char *argv[])
 {
 	t_mlx	mlx;
-	t_map	map;
 
 	if (argc == 2)
-		parse_file(argv[1], &map);
+		parse_file(argv[1], &mlx.map);
 	init_mlx(&mlx);
 	mlx_loop_hook(mlx.mlx_ptr, render, &mlx);
 	mlx_hook(mlx.win_ptr, 2, (1L << 0), handle_keypress, &mlx);

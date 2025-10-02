@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 12:55:23 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/01 16:23:09 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/02 15:09:53 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	get_map_dimensions(const char *filename, t_map *map)
 			dimensions.x = num_words;
 		if (num_words > dimensions.x)
 			dimensions.x = num_words;
-		free(line_split);
+		free_split(line_split);
 		free(line);
 		line = get_next_line(fd);
 		dimensions.y++;
@@ -49,12 +49,14 @@ static void	get_map_dimensions(const char *filename, t_map *map)
 static void	extract_values(char **line_split, int row, t_map *map)
 {
 	int	cols;
+	int test_gap; // distance between adjacent points for debugging purposes
 
 	cols = 0;
+	test_gap = 50;
 	while (*line_split)
 	{
-		map->points[row * map->dimensions.x + cols].x = cols;
-		map->points[row * map->dimensions.x + cols].y = row;
+		map->points[row * map->dimensions.x + cols].x = test_gap * cols;
+		map->points[row * map->dimensions.x + cols].y = test_gap * row;
 		map->points[row * map->dimensions.x + cols].z = ft_atoi(*line_split);
 		line_split++;
 		cols++;
@@ -75,7 +77,7 @@ static void	get_map_points(const char *filename, t_map *map)
 	{
 		line_split = ft_split(line, ' ');
 		extract_values(line_split, row, map);
-		free(line_split);
+		free_split(line_split);
 		free(line);
 		line = get_next_line(fd);
 		row++;
