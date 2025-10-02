@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 16:07:10 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/02 13:53:59 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/02 16:04:20 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,6 @@ typedef struct s_mlx
 	t_map	map;
 }	t_mlx;
 
-void	img_pixel_put(t_mlx *mlx, int x, int y, int color);
-void	draw_line(t_mlx *mlx, t_point3 p0, t_point3 p1);
-void	draw_map(t_mlx *mlx);
-int		parse_file(const char *filename, t_map *map);
+void	parse_map(const char *filename, t_map *map);
 
 #endif

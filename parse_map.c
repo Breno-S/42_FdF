@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 12:55:23 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/02 15:09:53 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/02 16:06:08 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	get_map_dimensions(const char *filename, t_map *map)
 static void	extract_values(char **line_split, int row, t_map *map)
 {
 	int	cols;
-	int test_gap; // distance between adjacent points for debugging purposes
+	int	test_gap; // distance between adjacent points for debugging purposes
 
 	cols = 0;
 	test_gap = 50;
@@ -87,12 +87,9 @@ static void	get_map_points(const char *filename, t_map *map)
 
 /*
  * Reads the .fdf file and saves the data into a `t_map` variable.
- *
- * Returns:
- * - 1 on success
- * - 0 on failure.
+ * Exits the program in case of errors.
  */
-int	parse_file(const char *filename, t_map *map)
+void	parse_map(const char *filename, t_map *map)
 {
 	get_map_dimensions(filename, map);
 	if (map->dimensions.x == 0 || map->dimensions.y == 0)
@@ -105,5 +102,4 @@ int	parse_file(const char *filename, t_map *map)
 	if (!map->points)
 		exit(EXIT_FAILURE);
 	get_map_points(filename, map);
-	return (1);
 }

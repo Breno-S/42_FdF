@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 13:23:34 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/02 14:39:45 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/02 15:55:00 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 /*
  * Frees a null-terminated array of strings,
  * like the ones returned by `ft_split()`.
- *
  */
 void	free_split(char	**split)
 {
