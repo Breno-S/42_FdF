@@ -6,11 +6,10 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 17:44:38 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/02 15:43:20 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/06 16:57:35 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -22,6 +21,7 @@
 
 int	render(t_mlx *mlx)
 {
+	mlx_clear_window(mlx->mlx_ptr, mlx->win_ptr);
 	if (mlx->win_ptr)
 	{
 		draw_map(mlx);

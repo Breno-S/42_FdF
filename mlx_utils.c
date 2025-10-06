@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 15:16:42 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/02 15:58:25 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/06 16:35:19 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 #include "mlx.h"
 
+#include "fdf_utils.h"
 #include "header.h"
 
 /*
@@ -47,7 +48,7 @@ void	img_pixel_put(t_mlx *mlx, int x, int y, int color)
 void	finish_mlx(t_mlx *mlx, int exit_status)
 {
 	if (mlx->map.points)
-		free(mlx->map.points);
+		free_point_matrix(mlx->map.points);
 	if (mlx->img_ptr)
 		mlx_destroy_image(mlx->mlx_ptr, mlx->img_ptr);
 	if (mlx->win_ptr)

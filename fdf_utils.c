@@ -6,13 +6,51 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 13:23:34 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/02 15:55:00 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/06 16:46:24 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
+
+#include "header.h"
+#include "libft.h"
+
+/*
+ * Frees matrices of points returned by `allocate_point_matrix()`.
+ */
+void	free_point_matrix(t_point3 **matrix)
+{
+	free(matrix[0]);
+	free(matrix);
+}
+
+/*
+ * Allocates a contiguous 2D matrix of type `t_point3`.
+ */
+t_point3 **allocate_point_matrix(int rows, int columns)
+{
+	t_point3	**matrix;
+	int			i;
+
+	matrix = ft_calloc(rows, sizeof(*matrix));
+	if (!matrix)
+		return (NULL);
+	matrix[0] = ft_calloc(rows * columns, sizeof(**matrix));
+	if (!matrix[0])
+	{
+		free(matrix);
+		return (NULL);
+	}
+	i = 1;
+	while (i < rows)
+	{
+		matrix[i] = matrix[0] + i * columns;
+		i++;
+	}
+	return (matrix);
+}
 
 /*
  * Frees a null-terminated array of strings,
@@ -22,6 +60,8 @@ void	free_split(char	**split)
 {
 	int	i;
 
+	if (!split)
+		return ;
 	i = 0;
 	while (split[i])
 	{

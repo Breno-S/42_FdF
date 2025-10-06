@@ -6,10 +6,11 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 12:55:23 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/02 17:38:40 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/06 16:46:05 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <math.h>
 #include <stdio.h>
 
 #include "fdf_utils.h"
@@ -53,11 +54,11 @@ static void	extract_values(char **line_split, int row, t_map *map)
 	cols = 0;
 	while (cols < map->dimensions.x)
 	{
-		map->points[row * map->dimensions.x + cols].x = cols;
-		map->points[row * map->dimensions.x + cols].y = row;
+		map->points[row][cols].x = cols;
+		map->points[row][cols].y = row;
 		if (*line_split)
 		{
-			map->points[row * map->dimensions.x + cols].z = ft_atoi(*line_split);
+			map->points[row][cols].z = ft_atoi(*line_split);
 			line_split++;
 		}
 		cols++;
@@ -98,8 +99,7 @@ void	parse_map(const char *filename, t_map *map)
 		// TODO: print custom message with ft_printf().
 		exit(EXIT_FAILURE);
 	}
-	map->points = ft_calloc(map->dimensions.x * map->dimensions.y,
-			sizeof(t_point3));
+	map->points = allocate_point_matrix(map->dimensions.y, map->dimensions.x);
 	if (!map->points)
 		exit(EXIT_FAILURE);
 	get_map_points(filename, map);
@@ -108,9 +108,34 @@ void	parse_map(const char *filename, t_map *map)
 	{
 		for (int j = 0; j < map->dimensions.x; j++)
 		{
-			map->points[i * map->dimensions.x + j] = point3_scale(map->points[i * map->dimensions.x + j], 50);
+			map->points[i][j] = point3_scale(map->points[i][j], 20);
 		}
 	}
+	// ISOMETRIC PROJECTION
+	for (int i = 0; i < map->dimensions.y; i++)
+	{
+		for (int j = 0; j < map->dimensions.x; j++)
+		{
+			map->points[i][j] = point3_iso(map->points[i][j]);
+		}
+	}
+	// TRANSLATE
+	for (int i = 0; i < map->dimensions.y; i++)
+	{
+		for (int j = 0; j < map->dimensions.x; j++)
+		{
+			map->points[i][j] = point3_translate(map->points[i][j],
+				(t_point3){500, 100, 0});
+		}
+	}
+	// ROTATE THE MAP
+	// for (int i = 0; i < map->dimensions.y; i++)
+	// {
+	// 	for (int j = 0; j < map->dimensions.x; j++)
+	// 	{
+	// 		map->points[i][j] = point3_rotate(map->points[i][j], 30 * M_PI / 180);
+	// 	}
+	// }
 	// PRINT MAP
 	for (int i = 0; i < map->dimensions.y; i++)
 	{
@@ -118,9 +143,9 @@ void	parse_map(const char *filename, t_map *map)
 		{
 			printf(
 				"(%d, %d, %d) ",
-				map->points[i * map->dimensions.x + j].x,
-				map->points[i * map->dimensions.x + j].y,
-				map->points[i * map->dimensions.x + j].z
+				map->points[i][j].x,
+				map->points[i][j].y,
+				map->points[i][j].z
 			);
 		}
 		printf("\n");

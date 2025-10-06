@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 16:07:10 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/02 16:51:14 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/06 16:56:49 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct s_vector3
 
 typedef struct s_map
 {
-	t_point3	*points;
+	t_point3	**points;
 	t_point2	dimensions;
 }	t_map;
 
