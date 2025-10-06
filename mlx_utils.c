@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 15:16:42 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/06 16:35:19 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/06 20:04:50 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,19 @@
 
 #include "fdf_utils.h"
 #include "header.h"
+#include "libft.h"
+
+/*
+ * Sets every Image pixel to black and sends it to the Window.
+ */
+void	img_clear_window(t_mlx *mlx)
+{
+	if (mlx->img_ptr && mlx->img_addr)
+	{
+		ft_bzero(mlx->img_addr, SC_W * SC_H * mlx->bit_depth / 8);
+		mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->img_ptr, 0, 0);
+	}
+}
 
 /*
  * Colors the (x, y) pixel in the Image associated with
@@ -53,7 +66,7 @@ void	finish_mlx(t_mlx *mlx, int exit_status)
 		mlx_destroy_image(mlx->mlx_ptr, mlx->img_ptr);
 	if (mlx->win_ptr)
 		mlx_destroy_window(mlx->mlx_ptr, mlx->win_ptr);
-	if (mlx->win_ptr)
+	if (mlx->mlx_ptr)
 	{
 		mlx_destroy_display(mlx->mlx_ptr);
 		free(mlx->mlx_ptr);
@@ -61,18 +74,20 @@ void	finish_mlx(t_mlx *mlx, int exit_status)
 	exit(exit_status);
 }
 
-static void	init_image(t_mlx *mlx, int width, int height)
+static void	init_map(t_mlx *mlx)
 {
-	if (mlx)
-	{
-		mlx->img_ptr = mlx_new_image(mlx->mlx_ptr, width, height);
-		mlx->img_addr = mlx_get_data_addr(mlx->img_ptr, &mlx->bit_depth,
-				&mlx->line_len, &mlx->endian);
-	}
+	mlx->map.offset.x = SC_W / 3;
+	mlx->map.offset.y = 0;
+	mlx->map.angle_rad.x = 0;
+	mlx->map.angle_rad.y = 0;
+	mlx->map.angle_rad.z = 0;
+	mlx->map.scale = 10;
 }
 
 /*
  * Creates the Display, Window and Image needed for the program.
+ * Also initializes the map state properties.
+ *
  * Exits the program in case of errors.
  */
 void	init_mlx(t_mlx *mlx)
@@ -83,7 +98,12 @@ void	init_mlx(t_mlx *mlx)
 	mlx->win_ptr = mlx_new_window(mlx->mlx_ptr, SC_W, SC_H, "Fil de Fer");
 	if (!mlx->win_ptr)
 		finish_mlx(mlx, EXIT_FAILURE);
-	init_image(mlx, SC_W, SC_H);
+	mlx->img_ptr = mlx_new_image(mlx->mlx_ptr, SC_W, SC_H);
 	if (!mlx->img_ptr)
 		finish_mlx(mlx, EXIT_FAILURE);
+	mlx->img_addr = mlx_get_data_addr(mlx->img_ptr, &mlx->bit_depth,
+				&mlx->line_len, &mlx->endian);
+	if (!mlx->img_addr)
+		finish_mlx(mlx, EXIT_FAILURE);
+	init_map(mlx);
 }
