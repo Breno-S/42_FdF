@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:40:31 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/06 20:08:49 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/07 14:13:55 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,25 +27,35 @@ t_point3	point3_scale(t_point3 point, int scalar)
 {
 	point.x *= scalar;
 	point.y *= scalar;
-	point.z *= scalar / 10;
+	point.z *= scalar;
 	return (point);
 }
 
-t_point3	point3_rotate(t_point3 point, float theta, enum e_axis axis)
+t_point3	point3_rotate(t_point3 point, t_vector3 angle_rad)
 {
-	if (axis == X_AXIS)
-	{
+	t_point3	result;
+	int			temp;
 
-	}
-	else if (axis == Y_AXIS)
+	result = point;
+	if (angle_rad.x != 0.0F)
 	{
-
+		temp = result.y;
+		result.y = result.y * cosf(angle_rad.x) - result.z * sinf(angle_rad.x);
+		result.z = temp * sinf(angle_rad.x) + result.z * cosf(angle_rad.x);
 	}
-	else if (axis == Z_AXIS)
+	if (angle_rad.y != 0.0F)
 	{
-
+		temp = result.x;
+		result.x = result.x * cosf(angle_rad.y) + result.z * sinf(angle_rad.y);
+		result.z = -temp * sinf(angle_rad.y) + result.z * cosf(angle_rad.y);
 	}
-	return (point);
+	if (angle_rad.z != 0.0F)
+	{
+		temp = result.x;
+		result.x = result.x * cosf(angle_rad.z) - result.y * sinf(angle_rad.z);
+		result.y = temp * sinf(angle_rad.z) + result.y * cosf(angle_rad.z);
+	}
+	return (result);
 }
 
 t_point3	point3_iso(t_point3 point)

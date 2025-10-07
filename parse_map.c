@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 12:55:23 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/06 20:08:00 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/07 14:31:43 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,56 +95,9 @@ void	parse_map(const char *filename, t_map *map)
 {
 	get_map_dimensions(filename, map);
 	if (map->dimensions.x == 0 || map->dimensions.y == 0)
-	{
-		// TODO: print custom message with ft_printf().
 		exit(EXIT_FAILURE);
-	}
 	map->points = allocate_point_matrix(map->dimensions.y, map->dimensions.x);
 	if (!map->points)
 		exit(EXIT_FAILURE);
 	get_map_points(filename, map);
-	// PRINT MAP
-	for (int i = 0; i < map->dimensions.y; i++)
-	{
-		for (int j = 0; j < map->dimensions.x; j++)
-		{
-			printf(
-				"(%d, %d, %d) ",
-				map->points[i][j].x,
-				map->points[i][j].y,
-				map->points[i][j].z
-			);
-		}
-		printf("\n");
-	}
-	// // USE XYZ SCALING TRANSFORMATION TO ZOOM
-	// for (int i = 0; i < map->dimensions.y; i++)
-	// {
-	// 	for (int j = 0; j < map->dimensions.x; j++)
-	// 	{
-	// 		map->points[i][j] = point3_scale(map->points[i][j], 10);
-	// 	}
-	// }
-	// // ISOMETRIC PROJECTION
-	// for (int i = 0; i < map->dimensions.y; i++)
-	// {
-	// 	for (int j = 0; j < map->dimensions.x; j++)
-	// 	{
-	// 		map->points[i][j] = point3_iso(map->points[i][j]);
-	// 	}
-	// }
-	// PRINT MAP
-	for (int i = 0; i < map->dimensions.y; i++)
-	{
-		for (int j = 0; j < map->dimensions.x; j++)
-		{
-			printf(
-				"(%d, %d, %d) ",
-				map->points[i][j].x,
-				map->points[i][j].y,
-				map->points[i][j].z
-			);
-		}
-		printf("\n");
-	}
 }

@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 13:23:34 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/06 16:46:24 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/07 11:44:27 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	free_point_matrix(t_point3 **matrix)
 /*
  * Allocates a contiguous 2D matrix of type `t_point3`.
  */
-t_point3 **allocate_point_matrix(int rows, int columns)
+t_point3	**allocate_point_matrix(int rows, int columns)
 {
 	t_point3	**matrix;
 	int			i;

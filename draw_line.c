@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 15:39:10 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/06 16:04:24 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/07 11:43:25 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "header.h"
 #include "mlx_utils.h"
 
-static void draw_line_low(t_mlx *mlx, t_point3 p0, t_point3 p1)
+static void	draw_line_low(t_mlx *mlx, t_point3 p0, t_point3 p1)
 {
 	t_point2	delta;
 	int			diff;
@@ -44,7 +44,7 @@ static void draw_line_low(t_mlx *mlx, t_point3 p0, t_point3 p1)
 	}
 }
 
-static void draw_line_high(t_mlx *mlx, t_point3 p0, t_point3 p1)
+static void	draw_line_high(t_mlx *mlx, t_point3 p0, t_point3 p1)
 {
 	t_point2	delta;
 	int			diff;

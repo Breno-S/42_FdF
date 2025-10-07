@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 15:16:42 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/06 20:04:50 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/07 13:58:46 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,16 +74,6 @@ void	finish_mlx(t_mlx *mlx, int exit_status)
 	exit(exit_status);
 }
 
-static void	init_map(t_mlx *mlx)
-{
-	mlx->map.offset.x = SC_W / 3;
-	mlx->map.offset.y = 0;
-	mlx->map.angle_rad.x = 0;
-	mlx->map.angle_rad.y = 0;
-	mlx->map.angle_rad.z = 0;
-	mlx->map.scale = 10;
-}
-
 /*
  * Creates the Display, Window and Image needed for the program.
  * Also initializes the map state properties.
@@ -102,8 +92,13 @@ void	init_mlx(t_mlx *mlx)
 	if (!mlx->img_ptr)
 		finish_mlx(mlx, EXIT_FAILURE);
 	mlx->img_addr = mlx_get_data_addr(mlx->img_ptr, &mlx->bit_depth,
-				&mlx->line_len, &mlx->endian);
+			&mlx->line_len, &mlx->endian);
 	if (!mlx->img_addr)
 		finish_mlx(mlx, EXIT_FAILURE);
-	init_map(mlx);
+	mlx->map.offset.x = 0;
+	mlx->map.offset.y = 0;
+	mlx->map.angle_rad.x = 0;
+	mlx->map.angle_rad.y = 0;
+	mlx->map.angle_rad.z = 0;
+	mlx->map.scale = 50;
 }
