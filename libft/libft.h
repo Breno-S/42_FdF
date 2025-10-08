@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 14:01:14 by brensant          #+#    #+#             */
-/*   Updated: 2025/09/24 14:54:23 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/08 13:28:51 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,9 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 // GNL
 
 char	*get_next_line(int fd);
+
+// ft_printf
+
+
 
 #endif

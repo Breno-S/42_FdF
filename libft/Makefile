@@ -58,7 +58,17 @@ GNL_SRCS := \
 		get_next_line_utils.c
 GNL_SRCS := $(addprefix $(GNL_SRC_DIR)/,$(GNL_SRCS))
 
-OBJS := $(SRCS:%.c=$(BUILD_DIR)/%.o) $(GNL_SRCS:$(GNL_SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
+FT_PRINTF_SRC_DIR := ft_printf
+FT_PRINTF_INC_DIR := ft_printf
+
+FT_PRINTF_SRCS := \
+		ft_printf.c \
+		print_funcs.c
+FT_PRINTF_SRCS := $(addprefix $(FT_PRINTF_SRC_DIR)/,$(FT_PRINTF_SRCS))
+
+OBJS := $(SRCS:%.c=$(BUILD_DIR)/%.o) \
+		$(GNL_SRCS:$(GNL_SRC_DIR)/%.c=$(BUILD_DIR)/%.o) \
+		$(FT_PRINTF_SRCS:$(FT_PRINTF_SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
 
 CC := cc
 CPPFLAGS := $(addprefix -I,$(INC_DIR)) $(addprefix -I,$(GNL_INC_DIR))
@@ -71,6 +81,11 @@ $(NAME): $(OBJS)
 
 # Rule for GNL
 $(BUILD_DIR)/%.o: $(GNL_SRC_DIR)/%.c
+	@mkdir -p $(BUILD_DIR)
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+
+# Rule for FT_PRINTF
+$(BUILD_DIR)/%.o: $(FT_PRINTF_SRC_DIR)/%.c
 	@mkdir -p $(BUILD_DIR)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
@@ -90,7 +105,4 @@ fclean:
 	rm -f $(OBJS)
 	rm -f $(NAME)
 
-.PHONY: all re clean fclean print
-
-print:
-	@echo $(OBJS)
+.PHONY: all re clean fclean

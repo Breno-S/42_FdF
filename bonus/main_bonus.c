@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 17:44:38 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/07 14:19:09 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/08 16:44:25 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 #include <stdlib.h>
 
 #include "mlx.h"
-
-#include "draw.h"
-#include "header.h"
-#include "input_utils.h"
-#include "mlx_utils.h"
 #include "libft.h"
+
+#include "draw_bonus.h"
+#include "header_bonus.h"
+#include "input_utils_bonus.h"
+#include "mlx_utils_bonus.h"
 
 int	render(t_mlx *mlx)
 {
