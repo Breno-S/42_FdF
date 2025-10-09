@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 13:08:50 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/08 16:43:23 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/09 17:33:15 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,6 @@
 
 #include "header_bonus.h"
 #include "mlx_utils_bonus.h"
-
-static int	handle_exit(int keysym, t_mlx *mlx)
-{
-	if (keysym == 0xff1b)
-		finish_mlx(mlx, EXIT_SUCCESS);
-	return (0);
-}
 
 static int	handle_movement(int keysym, t_mlx *mlx)
 {
@@ -42,21 +35,29 @@ static int	handle_movement(int keysym, t_mlx *mlx)
 
 static int	handle_rotation(int keysym, t_mlx *mlx)
 {
-	if (keysym == 0x71)
+	if (keysym == 0x71) // Q
 		mlx->map.angle_rad.z += M_PI / 180.0F;
-	else if (keysym == 0x65)
+	else if (keysym == 0x65) // E
 		mlx->map.angle_rad.z -= M_PI / 180.0F;
-	else if (keysym == 0xff51)
-		mlx->map.angle_rad.y += M_PI / 180.0F;
-	else if (keysym == 0xff53)
-		mlx->map.angle_rad.y -= M_PI / 180.0F;
-	else if (keysym == 0xff52)
+	else if (keysym == 0xff51) // LEFT
 		mlx->map.angle_rad.x += M_PI / 180.0F;
-	else if (keysym == 0xff54)
+	else if (keysym == 0xff53) // RIGHT
 		mlx->map.angle_rad.x -= M_PI / 180.0F;
+	else if (keysym == 0xff52) // UP
+		mlx->map.angle_rad.y += M_PI / 180.0F;
+	else if (keysym == 0xff54) // DOWN
+		mlx->map.angle_rad.y -= M_PI / 180.0F;
 	else
 		return (0);
 	img_clear_window(mlx);
+	printf(
+		"Angle X: %f\n"
+		"Angle Y: %f\n"
+		"Angle Z: %f\n",
+		mlx->map.angle_rad.x,
+		mlx->map.angle_rad.y,
+		mlx->map.angle_rad.z
+	);
 	return (1);
 }
 
@@ -72,15 +73,40 @@ static int	handle_scaling(int keysym, t_mlx *mlx)
 	return (1);
 }
 
+static int	handle_change_projection(int keysym, t_mlx *mlx)
+{
+	if (keysym == 0x70)
+	{
+		mlx->map.view = (mlx->map.view + 1) % 4;
+		img_clear_window(mlx);
+		return (1);
+	}
+	return (0);
+}
+
 int	handle_keypress(int keysym, t_mlx *mlx)
 {
-	printf("KeyPress: %#x\n", keysym);
-	handle_exit(keysym, mlx);
+	if (keysym == 0xff1b)
+		finish_mlx(mlx, EXIT_SUCCESS);
+	if (keysym == 0x2d)
+	{
+		mlx->map.z_scale -= 0.01F;
+		img_clear_window(mlx);
+		return (0);
+	}
+	if (keysym == 0x3d)
+	{
+		mlx->map.z_scale += 0.01F;
+		img_clear_window(mlx);
+		return (0);
+	}
 	if (handle_movement(keysym, mlx))
 		return (0);
 	if (handle_rotation(keysym, mlx))
 		return (0);
 	if (handle_scaling(keysym, mlx))
+		return (0);
+	if (handle_change_projection(keysym, mlx))
 		return (0);
 	return (0);
 }

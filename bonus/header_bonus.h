@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 16:07:10 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/08 16:43:08 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/09 17:32:07 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,23 @@ typedef struct s_vector3
 	float	z;
 }	t_vector3;
 
+enum e_view
+{
+	ISO,
+	FRONTAL,
+	LATERAL,
+	TOP_DOWN
+};
+
 typedef struct s_map
 {
 	t_point3	**points;
 	t_point3	offset;
 	t_vector3	angle_rad;
 	t_point2	dimensions;
+	enum e_view	view;
 	int			scale;
+	float		z_scale;
 }	t_map;
 
 /*

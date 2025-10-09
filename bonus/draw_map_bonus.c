@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 15:20:31 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/08 16:39:19 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/09 17:31:00 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,21 @@
 
 static void	transform_draw(t_mlx *mlx, t_point3 p0, t_point3 p1)
 {
+	p0.z *= mlx->map.z_scale;
 	p0 = point3_scale(p0, mlx->map.scale);
 	p0 = point3_rotate(p0, mlx->map.angle_rad);
-	p0 = point3_iso(p0);
+	if (mlx->map.view == ISO)
+		p0 = point3_iso(p0);
+	else
+		p0 = point3_ortho(p0, mlx->map.view);
 	p0 = point3_translate(p0, mlx->map.offset);
+	p1.z *= mlx->map.z_scale;
 	p1 = point3_scale(p1, mlx->map.scale);
 	p1 = point3_rotate(p1, mlx->map.angle_rad);
-	p1 = point3_iso(p1);
+	if (mlx->map.view == ISO)
+		p1 = point3_iso(p1);
+	else
+		p1 = point3_ortho(p1, mlx->map.view);
 	p1 = point3_translate(p1, mlx->map.offset);
 	draw_line(mlx, p0, p1);
 }

@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 15:16:42 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/08 16:44:32 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/09 17:32:16 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,4 +101,6 @@ void	init_mlx(t_mlx *mlx)
 	mlx->map.angle_rad.y = 0;
 	mlx->map.angle_rad.z = 0;
 	mlx->map.scale = 50;
+	mlx->map.view = ISO;
+	mlx->map.z_scale = 1.0F;
 }

@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:40:31 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/08 16:45:06 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/09 17:00:52 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,29 @@ t_point3	point3_iso(t_point3 point)
 
 	p.x = roundf((point.x - point.y) * cosf(M_PI / 6.0F));
 	p.y = roundf((point.x + point.y) * sinf(M_PI / 6.0F) - point.z);
+	return (p);
+}
+
+t_point3	point3_ortho(t_point3 point, enum e_view view)
+{
+	t_point3	p;
+
+	if (view == FRONTAL)
+	{
+		p.x = point.x;
+		p.y = point.y;
+	}
+	else if (view == LATERAL)
+	{
+		p.x = point.z;
+		p.y = point.y;
+	}
+	else if (view == TOP_DOWN)
+	{
+		p.x = point.x;
+		p.y = -point.z;
+	}
+	else
+		p = point;
 	return (p);
 }

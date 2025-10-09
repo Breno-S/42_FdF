@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 12:55:23 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/08 16:44:58 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/09 17:16:45 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,46 @@ static void	get_map_points(const char *filename, t_map *map)
 	close(fd);
 }
 
+static void	move_centers_to_origin(t_map *map)
+{
+	t_point3	offset;
+	int			z_max;
+	int			z_min;
+	int			i;
+	int			j;
+
+	z_min = map->points[0][0].z;
+	z_max = map->points[0][0].z;
+	i = 0;
+	while (i < map->dimensions.y)
+	{
+		j = 0;
+		while (j < map->dimensions.x)
+		{
+			if (map->points[i][j].z < z_min)
+				z_min = map->points[i][j].z;
+			if (map->points[i][j].z > z_max)
+				z_max = map->points[i][j].z;
+			j++;
+		}
+		i++;
+	}
+	offset.x = -(map->dimensions.x / 2);
+	offset.y = -(map->dimensions.y / 2);
+	offset.z = -((z_max - z_min) / 2);
+	i = 0;
+	while (i < map->dimensions.y)
+	{
+		j = 0;
+		while (j < map->dimensions.x)
+		{
+			map->points[i][j] = point3_translate(map->points[i][j], offset);
+			j++;
+		}
+		i++;
+	}
+}
+
 /*
  * Reads the .fdf file and saves the data into a `t_map` variable.
  * Exits the program in case of errors.
@@ -101,4 +141,5 @@ void	parse_map(const char *filename, t_map *map)
 	if (!map->points)
 		exit(EXIT_FAILURE);
 	get_map_points(filename, map);
+	move_centers_to_origin(map);
 }
