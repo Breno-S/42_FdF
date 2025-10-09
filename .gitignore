@@ -56,3 +56,6 @@ dkms.conf
 
 # ctags
 tags
+
+.vscode
+test_maps

@@ -1,6 +1,6 @@
 NAME        := fdf
 CC          := cc
-CFLAGS      := -Wall -Wextra -Werror
+CFLAGS      := -Wall -Wextra -Werror -g
 AR          := ar rcs
 RM          := rm -f
 
@@ -8,14 +8,13 @@ INC_DIR		:= .
 
 MLX_DIR		:= minilibx-linux
 MLX			:= $(MLX_DIR)/libmlx.a
-# 			:= $(MLX_DIR)/libmlx_Linux.a ?????
 
 LIBFT_DIR   := libft
 LIBFT       := $(LIBFT_DIR)/libft.a
 
 MANDATORY_DIR := mandatory
 BONUS_DIR     := bonus
-BUILD_DIR     := build
+BUILD_DIR     := obj
 
 INC_MANDATORY := $(INC_DIR) $(MANDATORY_DIR) $(LIBFT_DIR) $(MLX_DIR)
 INC_BONUS     := $(INC_DIR) $(BONUS_DIR) $(LIBFT_DIR) $(MLX_DIR)
@@ -23,8 +22,8 @@ INC_BONUS     := $(INC_DIR) $(BONUS_DIR) $(LIBFT_DIR) $(MLX_DIR)
 MANDATORY_SRCS := \
 				draw_line.c \
 				draw_map.c \
+				draw_map_utils.c \
 				fdf_utils.c \
-				input_utils.c \
 				main.c \
 				mlx_utils.c \
 				parse_map.c \
@@ -47,7 +46,7 @@ MANDATORY_OBJS := $(addprefix $(BUILD_DIR)/,$(notdir $(MANDATORY_SRCS:.c=.o)))
 BONUS_OBJS     := $(addprefix $(BUILD_DIR)/,$(notdir $(BONUS_SRCS:.c=.o)))
 
 LDLIBS		:= -lmlx -lft -lX11 -lXext -lm
-LDFLAGS		:= -L $(LIBFT_DIR) -L $(MLX_DIR) -L $(INC_DIR)
+LDFLAGS		:=  -L $(LIBFT_DIR) -L $(MLX_DIR)
 
 all: $(NAME)
 

@@ -1,18 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input_utils.h                                      :+:      :+:    :+:   */
+/*   draw_map_utils.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/07 14:00:17 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/07 14:19:27 by brensant         ###   ########.fr       */
+/*   Created: 2025/10/09 19:56:11 by brensant          #+#    #+#             */
+/*   Updated: 2025/10/09 19:57:11 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INPUT_UTILS_H
-# define INPUT_UTILS_H
+#ifndef DRAW_MAP_UTILS_H
+# define DRAW_MAP_UTILS_H
 
-int	handle_keypress(int keysym, t_mlx *mlx);
+# include "header.h"
+
+float	get_z_middle(t_map *map);
 
 #endif

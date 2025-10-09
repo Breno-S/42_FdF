@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 17:44:38 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/08 13:28:39 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/09 18:20:05 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "libft.h"
 #include "mlx.h"
 
 #include "draw.h"
 #include "header.h"
-#include "input_utils.h"
 #include "mlx_utils.h"
-#include "libft.h"
 
-int	render(t_mlx *mlx)
+static int	render(t_mlx *mlx)
 {
 	if (mlx->win_ptr)
 	{
@@ -35,6 +34,13 @@ int	render(t_mlx *mlx)
 static int	close_window(t_mlx *mlx)
 {
 	finish_mlx(mlx, EXIT_SUCCESS);
+	return (0);
+}
+
+static int	handle_keypress(int keysym, t_mlx *mlx)
+{
+	if (keysym == 0xff1b)
+		finish_mlx(mlx, EXIT_SUCCESS);
 	return (0);
 }
 
@@ -51,6 +57,11 @@ int	main(int argc, char *argv[])
 		mlx_hook(mlx.win_ptr, 17, 0, close_window, &mlx);
 		mlx_loop(mlx.mlx_ptr);
 		finish_mlx(&mlx, EXIT_SUCCESS);
+	}
+	else
+	{
+		ft_putstr_fd("Usage: ./fdf <file.fdf>\n", 1);
+		return (1);
 	}
 	return (0);
 }

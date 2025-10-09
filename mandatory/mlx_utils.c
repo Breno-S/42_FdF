@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 15:16:42 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/08 13:28:50 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/09 18:39:57 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,5 @@ void	init_mlx(t_mlx *mlx)
 			&mlx->line_len, &mlx->endian);
 	if (!mlx->img_addr)
 		finish_mlx(mlx, EXIT_FAILURE);
-	mlx->map.offset.x = 0;
-	mlx->map.offset.y = 0;
-	mlx->map.angle_rad.x = 0;
-	mlx->map.angle_rad.y = 0;
-	mlx->map.angle_rad.z = 0;
-	mlx->map.scale = 50;
+	mlx->map.scale = 10;
 }

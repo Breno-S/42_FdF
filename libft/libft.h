@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 14:01:14 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/08 13:28:51 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/09 17:56:48 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,6 @@ char	*get_next_line(int fd);
 
 // ft_printf
 
-
+int		ft_printf(const char *format, ...);
 
 #endif

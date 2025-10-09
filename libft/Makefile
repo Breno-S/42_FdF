@@ -71,7 +71,7 @@ OBJS := $(SRCS:%.c=$(BUILD_DIR)/%.o) \
 		$(FT_PRINTF_SRCS:$(FT_PRINTF_SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
 
 CC := cc
-CPPFLAGS := $(addprefix -I,$(INC_DIR)) $(addprefix -I,$(GNL_INC_DIR))
+CPPFLAGS := $(addprefix -I,$(INC_DIR))
 CFLAGS := -Wall -Wextra -Werror
 
 all: $(NAME)
@@ -82,12 +82,12 @@ $(NAME): $(OBJS)
 # Rule for GNL
 $(BUILD_DIR)/%.o: $(GNL_SRC_DIR)/%.c
 	@mkdir -p $(BUILD_DIR)
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+	$(CC) $(CPPFLAGS) -I$(GNL_INC_DIR) $(CFLAGS) -c $< -o $@
 
 # Rule for FT_PRINTF
 $(BUILD_DIR)/%.o: $(FT_PRINTF_SRC_DIR)/%.c
 	@mkdir -p $(BUILD_DIR)
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+	$(CC) $(CPPFLAGS) -I$(FT_PRINTF_INC_DIR) $(CFLAGS) -c $< -o $@
 
 # Rule for base libft functions
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
