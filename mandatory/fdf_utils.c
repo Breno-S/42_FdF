@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 13:23:34 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/07 11:44:27 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/10 00:21:36 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 /*
  * Frees matrices of points returned by `allocate_point_matrix()`.
  */
-void	free_point_matrix(t_point3 **matrix)
+void	free_point_matrix(t_vector3 **matrix)
 {
 	free(matrix[0]);
 	free(matrix);

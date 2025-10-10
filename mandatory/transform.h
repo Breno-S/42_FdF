@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:50:05 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/07 11:30:06 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/10 01:33:06 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 # include "header.h"
 
+# define COS_30 0.86602540378
+# define SIN_30 0.5
+
 enum e_axis
 {
 	X_AXIS,
@@ -22,9 +25,8 @@ enum e_axis
 	Z_AXIS
 };
 
-t_point3	point3_translate(t_point3 point, t_point3 offset);
-t_point3	point3_scale(t_point3 point, int scalar);
-t_point3	point3_rotate(t_point3 point, t_vector3 angle_rad);
-t_point3	point3_iso(t_point3 point);
+t_vector3	vector3_translate(t_vector3 point, t_vector3 offset);
+t_vector3	vector3_scale(t_vector3 point, int scalar);
+t_vector3	vector3_iso(t_vector3 point);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 15:39:10 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/07 11:43:25 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/10 08:54:29 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,18 @@ static void	draw_line_high(t_mlx *mlx, t_point3 p0, t_point3 p1)
 /*
  * Draws a line from `p0` to `p1` using Bresenham's line algorithm.
  */
-void	draw_line(t_mlx *mlx, t_point3 p0, t_point3 p1)
+void	draw_line(t_mlx *mlx, t_vector3 v0, t_vector3 v1)
 {
-	if (fabs((float)(p1.y - p0.y)) < fabs((float)(p1.x - p0.x)))
+	t_point3	p0;
+	t_point3	p1;
+
+	p0.x = (int)roundf(v0.x);
+	p0.y = (int)roundf(v0.y);
+	p0.z = (int)roundf(v0.z);
+	p1.x = (int)roundf(v1.x);
+	p1.y = (int)roundf(v1.y);
+	p1.z = (int)roundf(v1.z);
+	if (fabs(v1.y - v0.y) < fabs(v1.x - v0.x))
 	{
 		if (p0.x > p1.x)
 			draw_line_low(mlx, p1, p0);

@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:40:31 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/07 14:13:55 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/10 01:32:59 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,54 +15,27 @@
 #include "header.h"
 #include "transform.h"
 
-t_point3	point3_translate(t_point3 point, t_point3 offset)
+t_vector3	vector3_translate(t_vector3 v, t_vector3 offset)
 {
-	point.x += offset.x;
-	point.y += offset.y;
-	point.z += offset.z;
-	return (point);
+	v.x += offset.x;
+	v.y += offset.y;
+	v.z += offset.z;
+	return (v);
 }
 
-t_point3	point3_scale(t_point3 point, int scalar)
+t_vector3	vector3_scale(t_vector3 v, int scalar)
 {
-	point.x *= scalar;
-	point.y *= scalar;
-	point.z *= scalar;
-	return (point);
+	v.x *= scalar;
+	v.y *= scalar;
+	v.z *= scalar;
+	return (v);
 }
 
-t_point3	point3_rotate(t_point3 point, t_vector3 angle_rad)
+t_vector3	vector3_iso(t_vector3 v)
 {
-	t_point3	result;
-	int			temp;
+	t_vector3	p;
 
-	result = point;
-	if (angle_rad.x != 0.0F)
-	{
-		temp = result.y;
-		result.y = result.y * cosf(angle_rad.x) - result.z * sinf(angle_rad.x);
-		result.z = temp * sinf(angle_rad.x) + result.z * cosf(angle_rad.x);
-	}
-	if (angle_rad.y != 0.0F)
-	{
-		temp = result.x;
-		result.x = result.x * cosf(angle_rad.y) + result.z * sinf(angle_rad.y);
-		result.z = -temp * sinf(angle_rad.y) + result.z * cosf(angle_rad.y);
-	}
-	if (angle_rad.z != 0.0F)
-	{
-		temp = result.x;
-		result.x = result.x * cosf(angle_rad.z) - result.y * sinf(angle_rad.z);
-		result.y = temp * sinf(angle_rad.z) + result.y * cosf(angle_rad.z);
-	}
-	return (result);
-}
-
-t_point3	point3_iso(t_point3 point)
-{
-	t_point3	p;
-
-	p.x = roundf((point.x - point.y) * cosf(M_PI / 6.0F));
-	p.y = roundf((point.x + point.y) * sinf(M_PI / 6.0F) - point.z);
+	p.x = roundf((v.x - v.y) * COS_30);
+	p.y = roundf((v.x + v.y) * SIN_30 - v.z);
 	return (p);
 }

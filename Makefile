@@ -22,7 +22,6 @@ INC_BONUS     := $(INC_DIR) $(BONUS_DIR) $(LIBFT_DIR) $(MLX_DIR)
 MANDATORY_SRCS := \
 				draw_line.c \
 				draw_map.c \
-				draw_map_utils.c \
 				fdf_utils.c \
 				main.c \
 				mlx_utils.c \

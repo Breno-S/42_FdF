@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 15:16:42 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/09 18:39:57 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/10 08:57:02 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
  */
 void	img_clear_window(t_mlx *mlx)
 {
-	if (mlx->img_ptr && mlx->img_addr)
+	if (mlx->img_ptr)
 	{
 		ft_bzero(mlx->img_addr, SC_W * SC_H * mlx->bit_depth / 8);
 		mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->img_ptr, 0, 0);
@@ -95,5 +95,5 @@ void	init_mlx(t_mlx *mlx)
 			&mlx->line_len, &mlx->endian);
 	if (!mlx->img_addr)
 		finish_mlx(mlx, EXIT_FAILURE);
-	mlx->map.scale = 10;
+	mlx->map.scale = 5;
 }

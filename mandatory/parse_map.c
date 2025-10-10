@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 12:55:23 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/07 14:31:43 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/10 01:24:57 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ static void	extract_values(char **line_split, int row, t_map *map)
 	cols = 0;
 	while (cols < map->dimensions.x)
 	{
-		map->points[row][cols].x = cols;
-		map->points[row][cols].y = row;
+		map->points[row][cols].x = cols - (map->dimensions.x / 2);
+		map->points[row][cols].y = row - (map->dimensions.y / 2);
 		if (*line_split)
 		{
 			map->points[row][cols].z = ft_atoi(*line_split);
@@ -90,6 +90,9 @@ static void	get_map_points(const char *filename, t_map *map)
 /*
  * Reads the .fdf file and saves the data into a `t_map` variable.
  * Exits the program in case of errors.
+ *
+ * For optimization reasons, it automatically centers (translation) the
+ * map vertices around the origin (0, 0).
  */
 void	parse_map(const char *filename, t_map *map)
 {
