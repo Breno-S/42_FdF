@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 16:07:10 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/09 17:32:07 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/10 17:02:18 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,12 @@ enum e_view
 
 typedef struct s_map
 {
-	t_point3	**points;
-	t_point3	offset;
+	t_vector3	**points;
+	t_vector3	offset;
 	t_vector3	angle_rad;
 	t_point2	dimensions;
 	enum e_view	view;
-	int			scale;
+	float		scale;
 	float		z_scale;
 }	t_map;
 
@@ -85,6 +85,7 @@ typedef struct s_mlx
 	t_map	map;
 }	t_mlx;
 
-void		parse_map(const char *filename, t_map *map);
+void	parse_map(const char *filename, t_map *map);
+void	draw_and_render(t_mlx *mlx);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:40:31 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/09 17:00:52 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/10 16:51:48 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,28 @@
 #include "header_bonus.h"
 #include "transform_bonus.h"
 
-t_point3	point3_translate(t_point3 point, t_point3 offset)
+t_vector3	vector3_translate(t_vector3 v, t_vector3 offset)
 {
-	point.x += offset.x;
-	point.y += offset.y;
-	point.z += offset.z;
-	return (point);
+	v.x += offset.x;
+	v.y += offset.y;
+	v.z += offset.z;
+	return (v);
 }
 
-t_point3	point3_scale(t_point3 point, int scalar)
+t_vector3	vector3_scale(t_vector3 v, float scalar)
 {
-	point.x *= scalar;
-	point.y *= scalar;
-	point.z *= scalar;
-	return (point);
+	v.x *= scalar;
+	v.y *= scalar;
+	v.z *= scalar;
+	return (v);
 }
 
-t_point3	point3_rotate(t_point3 point, t_vector3 angle_rad)
+t_vector3	vector3_rotate(t_vector3 v, t_vector3 angle_rad)
 {
-	t_point3	result;
-	int			temp;
+	t_vector3	result;
+	float		temp;
 
-	result = point;
+	result = v;
 	if (angle_rad.x != 0.0F)
 	{
 		temp = result.y;
@@ -58,35 +58,35 @@ t_point3	point3_rotate(t_point3 point, t_vector3 angle_rad)
 	return (result);
 }
 
-t_point3	point3_iso(t_point3 point)
+t_vector3	vector3_iso(t_vector3 v)
 {
-	t_point3	p;
+	t_vector3	p;
 
-	p.x = roundf((point.x - point.y) * cosf(M_PI / 6.0F));
-	p.y = roundf((point.x + point.y) * sinf(M_PI / 6.0F) - point.z);
+	p.x = roundf((v.x - v.y) * COS_30);
+	p.y = roundf((v.x + v.y) * SIN_30 - v.z);
 	return (p);
 }
 
-t_point3	point3_ortho(t_point3 point, enum e_view view)
+t_vector3	vector3_ortho(t_vector3 v, enum e_view view)
 {
-	t_point3	p;
+	t_vector3	p;
 
 	if (view == FRONTAL)
 	{
-		p.x = point.x;
-		p.y = point.y;
+		p.x = v.x;
+		p.y = v.y;
 	}
 	else if (view == LATERAL)
 	{
-		p.x = point.z;
-		p.y = point.y;
+		p.x = v.z;
+		p.y = v.y;
 	}
 	else if (view == TOP_DOWN)
 	{
-		p.x = point.x;
-		p.y = -point.z;
+		p.x = v.x;
+		p.y = -v.z;
 	}
 	else
-		p = point;
+		p = v;
 	return (p);
 }

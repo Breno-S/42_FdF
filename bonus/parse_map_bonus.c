@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 12:55:23 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/09 18:20:35 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/10 16:50:25 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,16 @@ static void	get_map_dimensions(const char *filename, t_map *map)
 
 static void	extract_values(char **line_split, int row, t_map *map)
 {
-	int	cols;
+	int			cols;
+	t_point2	offset;
 
 	cols = 0;
+	offset.x = (map->dimensions.x / 2);
+	offset.y = (map->dimensions.y / 2);
 	while (cols < map->dimensions.x)
 	{
-		map->points[row][cols].x = cols;
-		map->points[row][cols].y = row;
+		map->points[row][cols].x = cols - offset.x;
+		map->points[row][cols].y = row - offset.y;
 		if (*line_split)
 		{
 			map->points[row][cols].z = ft_atoi(*line_split);
@@ -88,58 +91,20 @@ static void	get_map_points(const char *filename, t_map *map)
 	close(fd);
 }
 
-static void	move_centers_to_origin(t_map *map)
-{
-	t_point3	offset;
-	int			z_max;
-	int			z_min;
-	int			i;
-	int			j;
-
-	z_min = map->points[0][0].z;
-	z_max = map->points[0][0].z;
-	i = 0;
-	while (i < map->dimensions.y)
-	{
-		j = 0;
-		while (j < map->dimensions.x)
-		{
-			if (map->points[i][j].z < z_min)
-				z_min = map->points[i][j].z;
-			if (map->points[i][j].z > z_max)
-				z_max = map->points[i][j].z;
-			j++;
-		}
-		i++;
-	}
-	offset.x = -(map->dimensions.x / 2);
-	offset.y = -(map->dimensions.y / 2);
-	offset.z = -((z_max - z_min) / 2);
-	i = 0;
-	while (i < map->dimensions.y)
-	{
-		j = 0;
-		while (j < map->dimensions.x)
-		{
-			map->points[i][j] = point3_translate(map->points[i][j], offset);
-			j++;
-		}
-		i++;
-	}
-}
-
 /*
- * Reads the .fdf file and saves the data into a `t_map` variable.
+ * Reads the .fdf file and saves the data into the `map` variable.
  * Exits the program in case of errors.
+ *
+ * For optimization reasons, it automatically centers (translates) the
+ * map vertices around the origin (0, 0).
  */
 void	parse_map(const char *filename, t_map *map)
 {
 	get_map_dimensions(filename, map);
 	if (map->dimensions.x == 0 || map->dimensions.y == 0)
 		exit(EXIT_FAILURE);
-	map->points = allocate_point_matrix(map->dimensions.y, map->dimensions.x);
+	map->points = allocate_points_matrix(map->dimensions.y, map->dimensions.x);
 	if (!map->points)
 		exit(EXIT_FAILURE);
 	get_map_points(filename, map);
-	move_centers_to_origin(map);
 }

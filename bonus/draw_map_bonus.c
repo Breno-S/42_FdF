@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 15:20:31 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/09 17:31:00 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/10 16:48:05 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,37 @@
 #include "mlx_utils_bonus.h"
 #include "transform_bonus.h"
 
-static void	transform_draw(t_mlx *mlx, t_point3 p0, t_point3 p1)
+static t_vector3	center_on_screen(t_vector3 v)
 {
-	p0.z *= mlx->map.z_scale;
-	p0 = point3_scale(p0, mlx->map.scale);
-	p0 = point3_rotate(p0, mlx->map.angle_rad);
+	t_vector3	offset;
+
+	offset.x = SC_W / 2;
+	offset.y = SC_H / 2;
+	offset.z = 0;
+	return (vector3_translate(v, offset));
+}
+
+static void	transform_draw(t_mlx *mlx, t_vector3 v0, t_vector3 v1)
+{
+	v0.z *= mlx->map.z_scale;
+	v0 = vector3_scale(v0, mlx->map.scale);
+	v0 = vector3_rotate(v0, mlx->map.angle_rad);
 	if (mlx->map.view == ISO)
-		p0 = point3_iso(p0);
+		v0 = vector3_iso(v0);
 	else
-		p0 = point3_ortho(p0, mlx->map.view);
-	p0 = point3_translate(p0, mlx->map.offset);
-	p1.z *= mlx->map.z_scale;
-	p1 = point3_scale(p1, mlx->map.scale);
-	p1 = point3_rotate(p1, mlx->map.angle_rad);
+		v0 = vector3_ortho(v0, mlx->map.view);
+	v0 = center_on_screen(v0);
+	v0 = vector3_translate(v0, mlx->map.offset);
+	v1.z *= mlx->map.z_scale;
+	v1 = vector3_scale(v1, mlx->map.scale);
+	v1 = vector3_rotate(v1, mlx->map.angle_rad);
 	if (mlx->map.view == ISO)
-		p1 = point3_iso(p1);
+		v1 = vector3_iso(v1);
 	else
-		p1 = point3_ortho(p1, mlx->map.view);
-	p1 = point3_translate(p1, mlx->map.offset);
-	draw_line(mlx, p0, p1);
+		v1 = vector3_ortho(v1, mlx->map.view);
+	v1 = center_on_screen(v1);
+	v1 = vector3_translate(v1, mlx->map.offset);
+	draw_line(mlx, v0, v1);
 }
 
 /*
