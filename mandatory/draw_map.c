@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 15:20:31 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/10 01:44:27 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/10 14:04:23 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,16 @@ static t_vector3	center_on_screen(t_vector3 v)
 	return (vector3_translate(v, offset));
 }
 
-static void	transform_draw(t_mlx *mlx, t_vector3 p0, t_vector3 p1)
+static void	transform_draw(t_mlx *mlx, t_vector3 v0, t_vector3 v1)
 {
-	p0 = vector3_scale(p0, mlx->map.scale);
-	p0 = vector3_iso(p0);
-	p0 = center_on_screen(p0);
-	p1 = vector3_scale(p1, mlx->map.scale);
-	p1 = vector3_iso(p1);
-	p1 = center_on_screen(p1);
-	draw_line(mlx, p0, p1);
+	v0 = vector3_scale(v0, mlx->map.scale);
+	v0 = vector3_iso(v0);
+	v0 = center_on_screen(v0);
+	v1 = vector3_scale(v1, mlx->map.scale);
+	v1 = vector3_iso(v1);
+	v1 = center_on_screen(v1);
+	if ((v0.x >= 0 && v0.x <= SC_W) || (v1.x >= 0 && v1.x <= SC_H))
+		draw_line(mlx, v0, v1);
 }
 
 /*

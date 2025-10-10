@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 12:55:23 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/10 01:24:57 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/10 14:08:58 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,16 @@ static void	get_map_dimensions(const char *filename, t_map *map)
 
 static void	extract_values(char **line_split, int row, t_map *map)
 {
-	int	cols;
+	int			cols;
+	t_point2	offset;
 
 	cols = 0;
+	offset.x = (map->dimensions.x / 2);
+	offset.y = (map->dimensions.y / 2);
 	while (cols < map->dimensions.x)
 	{
-		map->points[row][cols].x = cols - (map->dimensions.x / 2);
-		map->points[row][cols].y = row - (map->dimensions.y / 2);
+		map->points[row][cols].x = cols - offset.x;
+		map->points[row][cols].y = row - offset.y;
 		if (*line_split)
 		{
 			map->points[row][cols].z = ft_atoi(*line_split);
@@ -88,10 +91,10 @@ static void	get_map_points(const char *filename, t_map *map)
 }
 
 /*
- * Reads the .fdf file and saves the data into a `t_map` variable.
+ * Reads the .fdf file and saves the data into the `map` variable.
  * Exits the program in case of errors.
  *
- * For optimization reasons, it automatically centers (translation) the
+ * For optimization reasons, it automatically centers (translates) the
  * map vertices around the origin (0, 0).
  */
 void	parse_map(const char *filename, t_map *map)
@@ -99,7 +102,7 @@ void	parse_map(const char *filename, t_map *map)
 	get_map_dimensions(filename, map);
 	if (map->dimensions.x == 0 || map->dimensions.y == 0)
 		exit(EXIT_FAILURE);
-	map->points = allocate_point_matrix(map->dimensions.y, map->dimensions.x);
+	map->points = allocate_points_matrix(map->dimensions.y, map->dimensions.x);
 	if (!map->points)
 		exit(EXIT_FAILURE);
 	get_map_points(filename, map);

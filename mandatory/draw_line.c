@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 15:39:10 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/10 08:54:29 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/10 14:20:27 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "header.h"
 #include "mlx_utils.h"
 
-static void	draw_line_low(t_mlx *mlx, t_point3 p0, t_point3 p1)
+static void	draw_line_low(t_mlx *mlx, t_point2 p0, t_point2 p1)
 {
 	t_point2	delta;
 	int			diff;
@@ -44,7 +44,7 @@ static void	draw_line_low(t_mlx *mlx, t_point3 p0, t_point3 p1)
 	}
 }
 
-static void	draw_line_high(t_mlx *mlx, t_point3 p0, t_point3 p1)
+static void	draw_line_high(t_mlx *mlx, t_point2 p0, t_point2 p1)
 {
 	t_point2	delta;
 	int			diff;
@@ -78,15 +78,13 @@ static void	draw_line_high(t_mlx *mlx, t_point3 p0, t_point3 p1)
  */
 void	draw_line(t_mlx *mlx, t_vector3 v0, t_vector3 v1)
 {
-	t_point3	p0;
-	t_point3	p1;
+	t_point2	p0;
+	t_point2	p1;
 
 	p0.x = (int)roundf(v0.x);
 	p0.y = (int)roundf(v0.y);
-	p0.z = (int)roundf(v0.z);
 	p1.x = (int)roundf(v1.x);
 	p1.y = (int)roundf(v1.y);
-	p1.z = (int)roundf(v1.z);
 	if (fabs(v1.y - v0.y) < fabs(v1.x - v0.x))
 	{
 		if (p0.x > p1.x)
@@ -102,30 +100,3 @@ void	draw_line(t_mlx *mlx, t_vector3 v0, t_vector3 v1)
 			draw_line_high(mlx, p0, p1);
 	}
 }
-
-/*
- * Draws a line from `p0` to `p1`.
- */
-// void	draw_line(t_mlx *mlx, t_point3 p0, t_point3 p1)
-// {
-// 	t_vector2	delta;
-// 	t_vector2	step;
-// 	float		big_step;
-// 	int			i;
-
-// 	delta.x = p1.x - p0.x;
-// 	delta.y = p1.y - p0.y;
-// 	big_step = fmax(fabs(delta.x), fabs(delta.y));
-// 	if (big_step != 0)
-// 	{
-// 		step.x = delta.x / big_step;
-// 		step.y = delta.y / big_step;
-// 		i = 0;
-// 		while (i < big_step + 1)
-// 		{
-// 			img_pixel_put(mlx, round(p0.x + i * step.x),
-// 				round(p0.y + i * step.y), 0xFFFFFF);
-// 			i++;
-// 		}
-// 	}
-// }

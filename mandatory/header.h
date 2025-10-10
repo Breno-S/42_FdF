@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 16:07:10 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/10 00:49:20 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/10 14:07:15 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,6 @@ typedef struct s_point2
 	int	x;
 	int	y;
 }	t_point2;
-
-typedef struct s_point3
-{
-	int	x;
-	int	y;
-	int	z;
-}	t_point3;
 
 typedef struct s_vector2
 {

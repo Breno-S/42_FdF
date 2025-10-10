@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:40:31 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/10 01:32:59 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/10 14:04:01 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_vector3	vector3_translate(t_vector3 v, t_vector3 offset)
 	return (v);
 }
 
-t_vector3	vector3_scale(t_vector3 v, int scalar)
+t_vector3	vector3_scale(t_vector3 v, float scalar)
 {
 	v.x *= scalar;
 	v.y *= scalar;
