@@ -1,39 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   header_bonus.h                                     :+:      :+:    :+:   */
+/*   common_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 16:07:10 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/10 17:02:18 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/12 01:45:38 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HEADER_BONUS_H
-# define HEADER_BONUS_H
+#ifndef COMMON_BONUS_H
+# define COMMON_BONUS_H
 
-# define SC_W 1600
-# define SC_H 900
+# define SC_W 1280
+# define SC_H 720
+
+# define COS_30 0.86602540378
+# define SIN_30 0.5
 
 typedef struct s_point2
 {
 	int	x;
 	int	y;
 }	t_point2;
-
-typedef struct s_point3
-{
-	int	x;
-	int	y;
-	int	z;
-}	t_point3;
-
-typedef struct s_vector2
-{
-	float	x;
-	float	y;
-}	t_vector2;
 
 typedef struct s_vector3
 {
@@ -56,9 +46,9 @@ typedef struct s_map
 	t_vector3	offset;
 	t_vector3	angle_rad;
 	t_point2	dimensions;
-	enum e_view	view;
 	float		scale;
 	float		z_scale;
+	enum e_view	view;
 }	t_map;
 
 /*
@@ -73,7 +63,7 @@ typedef struct s_map
  * | endian    | `int`           | System byte order (0 -> LE, !0 -> BE)   |
  * | map       | `t_map`         | FdF map to render                       |
  */
-typedef struct s_mlx
+typedef struct s_env
 {
 	void	*mlx_ptr;
 	void	*win_ptr;
@@ -83,9 +73,9 @@ typedef struct s_mlx
 	int		line_len;
 	int		endian;
 	t_map	map;
-}	t_mlx;
+}	t_env;
 
 void	parse_map(const char *filename, t_map *map);
-void	draw_and_render(t_mlx *mlx);
+void	draw_and_render(t_env *mlx);
 
 #endif

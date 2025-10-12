@@ -6,14 +6,24 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:40:31 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/10 16:51:48 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/12 02:27:20 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <math.h>
 
-#include "header_bonus.h"
+#include "common_bonus.h"
 #include "transform_bonus.h"
+
+t_vector3	vector3_subtract(t_vector3 v1, t_vector3 v2)
+{
+	t_vector3	r;
+
+	r.x = v1.x - v2.x;
+	r.y = v1.y - v2.y;
+	r.z = v1.z - v2.z;
+	return (r);
+}
 
 t_vector3	vector3_translate(t_vector3 v, t_vector3 offset)
 {
@@ -56,37 +66,4 @@ t_vector3	vector3_rotate(t_vector3 v, t_vector3 angle_rad)
 		result.y = temp * sinf(angle_rad.z) + result.y * cosf(angle_rad.z);
 	}
 	return (result);
-}
-
-t_vector3	vector3_iso(t_vector3 v)
-{
-	t_vector3	p;
-
-	p.x = roundf((v.x - v.y) * COS_30);
-	p.y = roundf((v.x + v.y) * SIN_30 - v.z);
-	return (p);
-}
-
-t_vector3	vector3_ortho(t_vector3 v, enum e_view view)
-{
-	t_vector3	p;
-
-	if (view == FRONTAL)
-	{
-		p.x = v.x;
-		p.y = v.y;
-	}
-	else if (view == LATERAL)
-	{
-		p.x = v.z;
-		p.y = v.y;
-	}
-	else if (view == TOP_DOWN)
-	{
-		p.x = v.x;
-		p.y = -v.z;
-	}
-	else
-		p = v;
-	return (p);
 }

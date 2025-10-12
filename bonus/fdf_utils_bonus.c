@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 13:23:34 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/10 16:46:46 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/11 22:29:07 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 #include "libft.h"
 
-#include "header_bonus.h"
+#include "common_bonus.h"
 
 /*
  * Frees a matrix of `t_vector3` returned by `allocate_points_matrix()`.

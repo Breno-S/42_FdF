@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 12:55:23 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/10 16:50:25 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/12 01:46:00 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,50 +16,43 @@
 #include "libft.h"
 
 #include "fdf_utils_bonus.h"
-#include "header_bonus.h"
+#include "common_bonus.h"
 #include "transform_bonus.h"
 
 static void	get_map_dimensions(const char *filename, t_map *map)
 {
-	int			fd;
-	char		*line;
-	char		**line_split;
-	int			num_words;
-	t_point2	dimensions;
+	int		fd;
+	char	*line;
+	char	**line_split;
+	int		num_words;
 
 	fd = open_file_r(filename);
-	dimensions.x = -1;
-	dimensions.y = 0;
+	map->dimensions.x = -1;
+	map->dimensions.y = 0;
 	line = get_next_line(fd);
 	while (line)
 	{
 		line_split = ft_split(line, ' ');
 		num_words = count_split(line_split);
-		if (dimensions.x == -1)
-			dimensions.x = num_words;
-		if (num_words > dimensions.x)
-			dimensions.x = num_words;
-		free_split(line_split);
+		if (num_words > map->dimensions.x)
+			map->dimensions.x = num_words;
+		ft_free_split(line_split);
 		free(line);
 		line = get_next_line(fd);
-		dimensions.y++;
+		map->dimensions.y++;
 	}
-	map->dimensions = dimensions;
 	close(fd);
 }
 
 static void	extract_values(char **line_split, int row, t_map *map)
 {
-	int			cols;
-	t_point2	offset;
+	int	cols;
 
 	cols = 0;
-	offset.x = (map->dimensions.x / 2);
-	offset.y = (map->dimensions.y / 2);
 	while (cols < map->dimensions.x)
 	{
-		map->points[row][cols].x = cols - offset.x;
-		map->points[row][cols].y = row - offset.y;
+		map->points[row][cols].x = cols - (map->dimensions.x / 2);
+		map->points[row][cols].y = row - (map->dimensions.y / 2);
 		if (*line_split)
 		{
 			map->points[row][cols].z = ft_atoi(*line_split);
@@ -101,8 +94,16 @@ static void	get_map_points(const char *filename, t_map *map)
 void	parse_map(const char *filename, t_map *map)
 {
 	get_map_dimensions(filename, map);
-	if (map->dimensions.x == 0 || map->dimensions.y == 0)
+	if (map->dimensions.x == -1)
+	{
+		ft_putendl_fd("Invalid filename", 1);
 		exit(EXIT_FAILURE);
+	}
+	if (map->dimensions.x == 0 || map->dimensions.y == 0)
+	{
+		ft_putendl_fd("Invalid map", 1);
+		exit(EXIT_FAILURE);
+	}
 	map->points = allocate_points_matrix(map->dimensions.y, map->dimensions.x);
 	if (!map->points)
 		exit(EXIT_FAILURE);

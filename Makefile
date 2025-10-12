@@ -22,19 +22,20 @@ INC_BONUS     := $(INC_DIR) $(BONUS_DIR) $(LIBFT_DIR) $(MLX_DIR)
 MANDATORY_SRCS := \
 				draw_line.c \
 				draw_map.c \
+				env_utils.c \
 				fdf_utils.c \
 				main.c \
-				env_utils.c \
-				parse_map.c \
+				parse_map.c
 
 BONUS_SRCS := \
 				draw_line_bonus.c \
 				draw_map_bonus.c \
+				env_utils_bonus.c \
 				fdf_utils_bonus.c \
 				input_utils_bonus.c \
 				main_bonus.c \
-				mlx_utils_bonus.c \
 				parse_map_bonus.c \
+				projection_bonus.c \
 				transform_bonus.c
 
 MANDATORY_SRCS := $(addprefix $(MANDATORY_DIR)/,$(MANDATORY_SRCS))
