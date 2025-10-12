@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mlx_utils.h                                        :+:      :+:    :+:   */
+/*   env_utils.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 15:16:53 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/06 19:51:52 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/11 21:17:10 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MLX_UTILS_H
-# define MLX_UTILS_H
+#ifndef ENV_UTILS_H
+# define ENV_UTILS_H
 
-# include "header.h"
+# include "common.h"
 
-void	img_clear_window(t_mlx *mlx);
-void	img_pixel_put(t_mlx *mlx, int x, int y, int color);
-void	finish_mlx(t_mlx *mlx, int exit_status);
-void	init_mlx(t_mlx *mlx);
+void	env_clear_window(t_env *env);
+void	env_pixel_put(t_env *env, int x, int y, int color);
+void	env_finish(t_env *env, int exit_status);
+void	env_init(t_env *env);
 
 #endif

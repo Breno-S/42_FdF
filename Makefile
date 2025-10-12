@@ -1,6 +1,6 @@
 NAME        := fdf
 CC          := cc
-CFLAGS      := -Wall -Wextra -Werror
+CFLAGS      := -Wall -Wextra -Werror -g
 AR          := ar rcs
 RM          := rm -f
 
@@ -24,9 +24,8 @@ MANDATORY_SRCS := \
 				draw_map.c \
 				fdf_utils.c \
 				main.c \
-				mlx_utils.c \
+				env_utils.c \
 				parse_map.c \
-				transform.c
 
 BONUS_SRCS := \
 				draw_line_bonus.c \

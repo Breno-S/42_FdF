@@ -49,6 +49,7 @@ SRCS := \
 	ft_lstclear_bonus.c\
 	ft_lstiter_bonus.c\
 	ft_lstmap_bonus.c\
+	ft_free_split.c
 
 GNL_SRC_DIR := gnl
 GNL_INC_DIR := gnl

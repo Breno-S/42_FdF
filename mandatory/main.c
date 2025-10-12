@@ -6,87 +6,89 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 17:44:38 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/10 14:24:51 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/11 21:32:42 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <math.h>
-#include <stdio.h>
 #include <stdlib.h>
 
 #include "libft.h"
 #include "mlx.h"
 
 #include "draw.h"
-#include "header.h"
-#include "mlx_utils.h"
+#include "common.h"
+#include "env_utils.h"
+#include "fdf_utils.h"
 
-static int	close_window(t_mlx *mlx)
+static int	close_window(t_env *env)
 {
-	finish_mlx(mlx, EXIT_SUCCESS);
+	env_finish(env, EXIT_SUCCESS);
 	return (0);
 }
 
-static int	handle_keypress(int keysym, t_mlx *mlx)
+static int	draw_and_render(t_env *env)
+{
+	env_clear_window(env);
+	draw_map(env);
+	mlx_put_image_to_window(env->mlx_ptr, env->win_ptr, env->img_ptr, 0, 0);
+	return (0);
+}
+
+static int	handle_keypress(int keysym, t_env *env)
 {
 	if (keysym == 0xff1b)
-		finish_mlx(mlx, EXIT_SUCCESS);
+		env_finish(env, EXIT_SUCCESS);
 	return (0);
 }
 
-static void	draw_and_render(t_mlx *mlx)
-{
-	img_clear_window(mlx);
-	draw_map(mlx);
-	mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->img_ptr, 0, 0);
-}
-
-static int	handle_mousepress(int keysym, int x, int y, t_mlx *mlx)
+static int	handle_mousepress(int keysym, int x, int y, t_env *env)
 {
 	(void)x;
 	(void)y;
 	if (keysym == 0x4)
 	{
-		mlx->map.scale *= 1.1;
-		if (mlx->map.scale > SC_H)
+		env->map.scale *= 1.1;
+		if (env->map.scale > SC_H)
 		{
-			mlx->map.scale = (float)SC_H;
+			env->map.scale = (float)SC_H;
 			return (0);
 		}
-		draw_and_render(mlx);
+		return (draw_and_render(env));
 	}
 	else if (keysym == 0x5)
 	{
-		mlx->map.scale /= 1.1F;
-		if (mlx->map.scale < 1.0F)
+		env->map.scale /= 1.1F;
+		if (env->map.scale < 1.0F)
 		{
-			mlx->map.scale = 1.0F;
+			env->map.scale = 1.0F;
 			return (0);
 		}
-		draw_and_render(mlx);
+		return (draw_and_render(env));
 	}
 	return (0);
 }
 
 int	main(int argc, char *argv[])
 {
-	t_mlx	mlx;
+	t_env	env;
 
 	if (argc == 2)
 	{
-		parse_map(argv[1], &mlx.map);
-		init_mlx(&mlx);
-		mlx_hook(mlx.win_ptr, 2, (1L << 0), handle_keypress, &mlx);
-		mlx_hook(mlx.win_ptr, 4, (1L << 2), handle_mousepress, &mlx);
-		mlx_hook(mlx.win_ptr, 17, 0, close_window, &mlx);
-		draw_and_render(&mlx);
-		mlx_loop(mlx.mlx_ptr);
-		finish_mlx(&mlx, EXIT_SUCCESS);
+		parse_map(argv[1], &env.map);
+		env_init(&env);
+		mlx_hook(env.win_ptr, 2, (1L << 0), handle_keypress, &env);
+		mlx_hook(env.win_ptr, 4, (1L << 2), handle_mousepress, &env);
+		mlx_expose_hook(env.win_ptr, draw_and_render, &env);
+		mlx_hook(env.win_ptr, 17, 0, close_window, &env);
+		draw_and_render(&env);
+		mlx_loop(env.mlx_ptr);
+		env_finish(&env, EXIT_SUCCESS);
 	}
 	else
 	{
-		ft_putstr_fd("Usage: ./fdf <file.fdf>\n", 1);
-		return (1);
+		ft_putendl_fd("Usage: ./fdf <file.fdf>", 1);
+		return (EXIT_SUCCESS);
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }

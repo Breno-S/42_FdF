@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 13:23:34 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/10 14:23:48 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/11 21:16:28 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include <fcntl.h>
 
-#include "header.h"
+#include "common.h"
 #include "libft.h"
 
 /*
@@ -50,27 +50,6 @@ t_vector3	**allocate_points_matrix(int rows, int columns)
 		i++;
 	}
 	return (matrix);
-}
-
-/*
- * Frees a null-terminated array of strings,
- * like the ones returned by `ft_split()`.
- */
-void	free_split(char	**split)
-{
-	int	i;
-
-	if (!split)
-		return ;
-	i = 0;
-	while (split[i])
-	{
-		free(split[i]);
-		split[i] = NULL;
-		i++;
-	}
-	free(split);
-	split = NULL;
 }
 
 /*
