@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 13:23:34 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/11 21:16:28 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/13 15:49:57 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ int	count_split(char **split)
 {
 	int	count;
 
+	if (!split)
+		return (0);
 	count = 0;
 	while (split[count])
 		count++;
@@ -83,7 +85,7 @@ int	open_file_r(const char *filename)
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 	{
-		perror("open() failed");
+		perror("Error");
 		exit(EXIT_FAILURE);
 	}
 	return (fd);
