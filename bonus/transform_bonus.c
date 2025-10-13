@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:40:31 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/12 02:27:20 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/13 13:06:13 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 #include "common_bonus.h"
 #include "transform_bonus.h"
 
-t_vector3	vector3_subtract(t_vector3 v1, t_vector3 v2)
+t_vector3	vector3_zero(void)
 {
-	t_vector3	r;
+	t_vector3	v;
 
-	r.x = v1.x - v2.x;
-	r.y = v1.y - v2.y;
-	r.z = v1.z - v2.z;
-	return (r);
+	v.x = 0;
+	v.y = 0;
+	v.z = 0;
+	return (v);
 }
 
 t_vector3	vector3_translate(t_vector3 v, t_vector3 offset)

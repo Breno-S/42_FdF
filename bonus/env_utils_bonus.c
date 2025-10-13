@@ -6,28 +6,32 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 15:16:42 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/12 01:48:40 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/13 16:29:57 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
-#include "mlx.h"
 #include "libft.h"
+#include "mlx.h"
 
-#include "fdf_utils_bonus.h"
 #include "common_bonus.h"
+#include "draw_bonus.h"
+#include "fdf_utils_bonus.h"
 
 /*
- * Sets every Image pixel to black and sends it to the Window.
+ * Draws the Image based on the `map` member variable and sends it
+ * to the Window, updating the frame being displayed.
  */
-void	env_clear_window(t_env *env)
+void	env_draw_and_render(t_env *env)
 {
 	if (env->img_ptr && env->img_addr)
 	{
 		ft_bzero(env->img_addr, SC_W * SC_H * env->bit_depth / 8);
 		mlx_put_image_to_window(env->mlx_ptr, env->win_ptr, env->img_ptr, 0, 0);
 	}
+	draw_map(env);
+	mlx_put_image_to_window(env->mlx_ptr, env->win_ptr, env->img_ptr, 0, 0);
 }
 
 /*
@@ -60,8 +64,8 @@ void	env_pixel_put(t_env *env, int x, int y, int color)
  */
 void	env_finish(t_env *env, int exit_status)
 {
-	if (env->map.points)
-		free_points_matrix(env->map.points);
+	if (env->map && env->map->points)
+		free_points_matrix(env->map->points);
 	if (env->img_ptr)
 		mlx_destroy_image(env->mlx_ptr, env->img_ptr);
 	if (env->win_ptr)
@@ -75,13 +79,15 @@ void	env_finish(t_env *env, int exit_status)
 }
 
 /*
- * Creates the Display, Window and Image needed for the program.
- * Also initializes the map state properties.
+ * Creates the Display, Window and Image needed for the program
+ * and assigns `map` to the map variable inside `env`.
  *
  * Exits the program in case of errors.
  */
-void	env_init(t_env *env)
+void	env_init(t_env *env, t_map *map)
 {
+	if (!env || !map)
+		env_finish(env, EXIT_FAILURE);
 	env->mlx_ptr = mlx_init();
 	if (!env->mlx_ptr)
 		env_finish(env, EXIT_FAILURE);
@@ -95,13 +101,5 @@ void	env_init(t_env *env)
 			&env->line_len, &env->endian);
 	if (!env->img_addr)
 		env_finish(env, EXIT_FAILURE);
-	env->map.offset.x = 0;
-	env->map.offset.y = 0;
-	env->map.offset.z = 0;
-	env->map.angle_rad.x = 0;
-	env->map.angle_rad.y = 0;
-	env->map.angle_rad.z = 0;
-	env->map.scale = 10.0F;
-	env->map.z_scale = 1.0F;
-	env->map.view = ISO;
+	env->map = map;
 }

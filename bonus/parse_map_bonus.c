@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 12:55:23 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/12 01:46:00 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/13 16:20:35 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 #include "libft.h"
 
-#include "fdf_utils_bonus.h"
 #include "common_bonus.h"
+#include "fdf_utils_bonus.h"
 #include "transform_bonus.h"
 
 static void	get_map_dimensions(const char *filename, t_map *map)
@@ -76,7 +76,7 @@ static void	get_map_points(const char *filename, t_map *map)
 	{
 		line_split = ft_split(line, ' ');
 		extract_values(line_split, row, map);
-		free_split(line_split);
+		ft_free_split(line_split);
 		free(line);
 		line = get_next_line(fd);
 		row++;
@@ -91,21 +91,25 @@ static void	get_map_points(const char *filename, t_map *map)
  * For optimization reasons, it automatically centers (translates) the
  * map vertices around the origin (0, 0).
  */
-void	parse_map(const char *filename, t_map *map)
+t_map	parse_map(const char *filename)
 {
-	get_map_dimensions(filename, map);
-	if (map->dimensions.x == -1)
+	t_map	map;
+
+	get_map_dimensions(filename, &map);
+	if (map.dimensions.x + map.dimensions.y < 3)
 	{
-		ft_putendl_fd("Invalid filename", 1);
+		ft_putendl_fd("Error: Invalid map", 1);
 		exit(EXIT_FAILURE);
 	}
-	if (map->dimensions.x == 0 || map->dimensions.y == 0)
-	{
-		ft_putendl_fd("Invalid map", 1);
+	ft_putendl_fd("Parsing map from file...", 1);
+	map.points = allocate_points_matrix(map.dimensions.y, map.dimensions.x);
+	if (!map.points)
 		exit(EXIT_FAILURE);
-	}
-	map->points = allocate_points_matrix(map->dimensions.y, map->dimensions.x);
-	if (!map->points)
-		exit(EXIT_FAILURE);
-	get_map_points(filename, map);
+	get_map_points(filename, &map);
+	map.offset = vector3_zero();
+	map.angle_rad = vector3_zero();
+	map.scale = 10.0F;
+	map.z_scale = 1.0F;
+	map.view = ISO;
+	return (map);
 }

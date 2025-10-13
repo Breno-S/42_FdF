@@ -1,48 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   projection_bonus.c                                 :+:      :+:    :+:   */
+/*   input_mouse_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/12 01:25:34 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/13 16:01:28 by brensant         ###   ########.fr       */
+/*   Created: 2025/10/12 19:48:43 by brensant          #+#    #+#             */
+/*   Updated: 2025/10/13 15:58:01 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <math.h>
-
 #include "common_bonus.h"
+#include "env_utils_bonus.h"
 
-t_vector3	vector3_iso(t_vector3 v)
+int	handle_mousepress(int keysym, int x, int y, t_env *env)
 {
-	t_vector3	p;
-
-	p.x = roundf((v.x - v.y) * COS_30);
-	p.y = roundf((v.x + v.y) * SIN_30 - v.z);
-	return (p);
-}
-
-t_vector3	vector3_ortho(t_vector3 v, enum e_view view)
-{
-	t_vector3	p;
-
-	if (view == FRONTAL)
+	(void)x;
+	(void)y;
+	if (keysym == 0x4)
 	{
-		p.x = v.x;
-		p.y = v.y;
+		env->map->scale *= 1.1;
+		if (env->map->scale > SC_H)
+		{
+			env->map->scale = (float)SC_H;
+			return (0);
+		}
+		env_draw_and_render(env);
 	}
-	else if (view == LATERAL)
+	else if (keysym == 0x5)
 	{
-		p.x = v.z;
-		p.y = v.y;
+		env->map->scale /= 1.1F;
+		if (env->map->scale < 1.0F)
+		{
+			env->map->scale = 1.0F;
+			return (0);
+		}
+		env_draw_and_render(env);
 	}
-	else if (view == TOP_DOWN)
-	{
-		p.x = v.x;
-		p.y = -v.z;
-	}
-	else
-		return (v);
-	return (p);
+	return (0);
 }

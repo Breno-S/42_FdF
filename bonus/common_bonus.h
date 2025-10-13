@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 16:07:10 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/12 01:45:38 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/13 15:56:44 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,16 @@ typedef struct s_map
 }	t_map;
 
 /*
- * |  MEMBER   | UNDERLYING TYPE | CONTENTS                                |
- * | --------- | --------------- | --------------------------------------- |
- * | mlx_ptr   | `t_xvar`        | Display + metadata                      |
- * | win_ptr   | `t_win_list`    | Window + metadata                       |
- * | img_ptr   | `t_img`         | Image + metadata                        |
- * | img_addr  | `char *`        | Pointer to Image data (array of pixels) |
- * | bit_depth | `int`           | Image bits per pixel                    |
- * | line_len  | `int`           | Image bytes per line                    |
- * | endian    | `int`           | System byte order (0 -> LE, !0 -> BE)   |
- * | map       | `t_map`         | FdF map to render                       |
+ * | MEMBER     | UNDERLYING TYPE          | CONTENTS                     |
+ * | ---------- | ------------------------ | ---------------------------- |
+ * | mlx_ptr    | `void *` -> `t_xvar`     | Display + metadata           |
+ * | win_ptr    | `void *` -> `t_win_list` | Window + metadata            |
+ * | img_ptr    | `void *` -> `t_img`      | Image + metadata             |
+ * | img_addr   | `char *`      | Pointer to Image data (array of pixels) |
+ * | bit_depth  | `int`         | Image bits per pixel                    |
+ * | line_len   | `int`         | Image bytes per line                    |
+ * | endian     | `int`         | System byte order (0 -> LE, !0 -> BE)   |
+ * | map        | `t_map *`     | Pointer to FdF map                      |
  */
 typedef struct s_env
 {
@@ -72,10 +72,7 @@ typedef struct s_env
 	int		bit_depth;
 	int		line_len;
 	int		endian;
-	t_map	map;
+	t_map	*map;
 }	t_env;
-
-void	parse_map(const char *filename, t_map *map);
-void	draw_and_render(t_env *mlx);
 
 #endif

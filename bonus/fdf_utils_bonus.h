@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 13:25:12 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/11 22:29:08 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/13 15:24:39 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 
 void		free_points_matrix(t_vector3 **matrix);
 t_vector3	**allocate_points_matrix(int rows, int columns);
-void		free_split(char	**split);
 int			count_split(char **split);
 int			open_file_r(const char *filename);
+t_map		parse_map(const char *filename);
 
 #endif

@@ -6,13 +6,13 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 13:23:34 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/11 22:29:07 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/13 15:57:33 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <fcntl.h>
 
 #include "libft.h"
 
@@ -54,27 +54,6 @@ t_vector3	**allocate_points_matrix(int rows, int columns)
 }
 
 /*
- * Frees a null-terminated array of strings,
- * like the ones returned by `ft_split()`.
- */
-void	free_split(char	**split)
-{
-	int	i;
-
-	if (!split)
-		return ;
-	i = 0;
-	while (split[i])
-	{
-		free(split[i]);
-		split[i] = NULL;
-		i++;
-	}
-	free(split);
-	split = NULL;
-}
-
-/*
  * Counts the number of elements present in a null-terminated array of strings,
  * like the ones returned by `ft_split()`.
  *
@@ -85,6 +64,8 @@ int	count_split(char **split)
 {
 	int	count;
 
+	if (!split)
+		return (0);
 	count = 0;
 	while (split[count])
 		count++;
