@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 01:25:34 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/13 16:01:28 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/13 22:55:30 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,16 @@
 
 #include "common_bonus.h"
 
-t_vector3	vector3_iso(t_vector3 v)
+t_vector3	vector3_project(t_vector3 v, enum e_view view)
 {
 	t_vector3	p;
 
-	p.x = roundf((v.x - v.y) * COS_30);
-	p.y = roundf((v.x + v.y) * SIN_30 - v.z);
-	return (p);
-}
-
-t_vector3	vector3_ortho(t_vector3 v, enum e_view view)
-{
-	t_vector3	p;
-
-	if (view == FRONTAL)
+	if (view == ISO)
+	{
+		p.x = roundf((v.x - v.y) * COS_30);
+		p.y = roundf((v.x + v.y) * SIN_30 - v.z);
+	}
+	else if (view == FRONTAL)
 	{
 		p.x = v.x;
 		p.y = v.y;

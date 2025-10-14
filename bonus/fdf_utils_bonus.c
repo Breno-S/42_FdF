@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 13:23:34 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/13 15:57:33 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/13 23:08:53 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,20 @@
 #include "common_bonus.h"
 
 /*
- * Frees a matrix of `t_vector3` returned by `allocate_points_matrix()`.
+ * Frees a matrix of `t_vertex` returned by `allocate_points_matrix()`.
  */
-void	free_points_matrix(t_vector3 **matrix)
+void	free_points_matrix(t_vertex **matrix)
 {
 	free(matrix[0]);
 	free(matrix);
 }
 
 /*
- * Allocates a contiguous 2D matrix of type `t_vector3`.
+ * Allocates a contiguous 2D matrix of type `t_vertex`.
  */
-t_vector3	**allocate_points_matrix(int rows, int columns)
+t_vertex	**allocate_points_matrix(int rows, int columns)
 {
-	t_vector3	**matrix;
+	t_vertex	**matrix;
 	int			i;
 
 	matrix = ft_calloc(rows, sizeof(*matrix));

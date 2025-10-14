@@ -6,12 +6,14 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 16:07:10 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/13 15:56:44 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/14 01:08:37 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COMMON_BONUS_H
 # define COMMON_BONUS_H
+
+# include <stdint.h>
 
 # define SC_W 1280
 # define SC_H 720
@@ -32,6 +34,18 @@ typedef struct s_vector3
 	float	z;
 }	t_vector3;
 
+typedef union u_color
+{
+	uint32_t		value;
+	unsigned char	rgba[4];
+}	t_color;
+
+typedef struct s_vertex
+{
+	t_vector3	pos;
+	t_color		color;
+}	t_vertex;
+
 enum e_view
 {
 	ISO,
@@ -42,10 +56,11 @@ enum e_view
 
 typedef struct s_map
 {
-	t_vector3	**points;
+	t_vertex	**vertices;
 	t_vector3	offset;
 	t_vector3	angle_rad;
-	t_point2	dimensions;
+	int			rows;
+	int			columns;
 	float		scale;
 	float		z_scale;
 	enum e_view	view;

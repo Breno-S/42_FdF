@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 15:16:42 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/13 16:29:57 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/13 22:50:42 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ void	env_pixel_put(t_env *env, int x, int y, int color)
  */
 void	env_finish(t_env *env, int exit_status)
 {
-	if (env->map && env->map->points)
-		free_points_matrix(env->map->points);
+	if (env->map && env->map->vertices)
+		free_points_matrix(env->map->vertices);
 	if (env->img_ptr)
 		mlx_destroy_image(env->mlx_ptr, env->img_ptr);
 	if (env->win_ptr)

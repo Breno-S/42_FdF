@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 13:08:50 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/13 15:04:59 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/14 01:48:23 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ static int	handle_change_projection(int keysym, t_env *env)
 static int	handle_z_scaling(int keysym, t_env *env)
 {
 	if (keysym == 0x2d)
-		env->map->z_scale -= 0.05F;
+		env->map->z_scale -= 0.01F;
 	else if (keysym == 0x3d)
-		env->map->z_scale += 0.05F;
+		env->map->z_scale += 0.01F;
 	else if (keysym == 0x30)
 		env->map->z_scale = 1.0F;
 	else

@@ -32,7 +32,8 @@ BONUS_SRCS := \
 				draw_map_bonus.c \
 				env_utils_bonus.c \
 				fdf_utils_bonus.c \
-				input_utils_bonus.c \
+				input_keyboard_bonus.c \
+				input_mouse_bonus.c \
 				main_bonus.c \
 				parse_map_bonus.c \
 				projection_bonus.c \
@@ -72,13 +73,9 @@ $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
 
 clean:
-	$(MAKE) -C $(MLX_DIR) clean
-	$(MAKE) -C $(LIBFT_DIR) clean
 	$(RM) $(MANDATORY_OBJS) $(BONUS_OBJS)
 
 fclean: clean
-	$(MAKE) -C $(MLX_DIR) clean
-	$(MAKE) -C $(LIBFT_DIR) fclean
 	$(RM) $(NAME)
 
 re: fclean all

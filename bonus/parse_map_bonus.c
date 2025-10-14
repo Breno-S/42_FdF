@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 12:55:23 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/13 16:20:35 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/14 01:42:07 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,33 @@
 #include "fdf_utils_bonus.h"
 #include "transform_bonus.h"
 
+static int	extract_color(char *z_color)
+{
+	char	**z_color_split;
+	int		color;
+	int		i;
+
+	color = 0xFFFFFF;
+	if (!z_color)
+		return (0);
+	z_color_split = ft_split(z_color, ',');
+	if (!z_color_split)
+		return (0);
+	if (z_color_split[1] && z_color_split[1][0] == '0'
+		&& ft_tolower(z_color_split[1][1]) == 'x')
+	{
+		i = 0;
+		while (z_color_split[1][2 + i])
+		{
+			z_color_split[1][2 + i] = ft_tolower(z_color_split[1][2 + i]);
+			i++;
+		}
+		color = ft_atoi_base(&z_color_split[1][2], "0123456789abcdef");
+	}
+	ft_free_split(z_color_split);
+	return (color);
+}
+
 static void	get_map_dimensions(const char *filename, t_map *map)
 {
 	int		fd;
@@ -27,19 +54,19 @@ static void	get_map_dimensions(const char *filename, t_map *map)
 	int		num_words;
 
 	fd = open_file_r(filename);
-	map->dimensions.x = -1;
-	map->dimensions.y = 0;
+	map->rows = 0;
+	map->columns = -1;
 	line = get_next_line(fd);
 	while (line)
 	{
 		line_split = ft_split(line, ' ');
 		num_words = count_split(line_split);
-		if (num_words > map->dimensions.x)
-			map->dimensions.x = num_words;
+		if (num_words > map->columns)
+			map->columns = num_words;
 		ft_free_split(line_split);
 		free(line);
 		line = get_next_line(fd);
-		map->dimensions.y++;
+		map->rows++;
 	}
 	close(fd);
 }
@@ -49,15 +76,18 @@ static void	extract_values(char **line_split, int row, t_map *map)
 	int	cols;
 
 	cols = 0;
-	while (cols < map->dimensions.x)
+	while (cols < map->columns)
 	{
-		map->points[row][cols].x = cols - (map->dimensions.x / 2);
-		map->points[row][cols].y = row - (map->dimensions.y / 2);
+		map->vertices[row][cols].pos.x = cols - (map->columns / 2);
+		map->vertices[row][cols].pos.y = row - (map->rows / 2);
 		if (*line_split)
 		{
-			map->points[row][cols].z = ft_atoi(*line_split);
+			map->vertices[row][cols].pos.z = ft_atoi(*line_split);
+			map->vertices[row][cols].color.value = extract_color(*line_split);
 			line_split++;
 		}
+		else
+			map->vertices[row][cols].color.value = 0xFFFFFF;
 		cols++;
 	}
 }
@@ -96,14 +126,14 @@ t_map	parse_map(const char *filename)
 	t_map	map;
 
 	get_map_dimensions(filename, &map);
-	if (map.dimensions.x + map.dimensions.y < 3)
+	if (map.columns + map.rows < 3)
 	{
 		ft_putendl_fd("Error: Invalid map", 1);
 		exit(EXIT_FAILURE);
 	}
 	ft_putendl_fd("Parsing map from file...", 1);
-	map.points = allocate_points_matrix(map.dimensions.y, map.dimensions.x);
-	if (!map.points)
+	map.vertices = allocate_points_matrix(map.rows, map.columns);
+	if (!map.vertices)
 		exit(EXIT_FAILURE);
 	get_map_points(filename, &map);
 	map.offset = vector3_zero();
