@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 17:44:38 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/13 16:28:28 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/14 17:24:38 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@
 #include "fdf_utils_bonus.h"
 #include "input_bonus.h"
 
-static int	close_window(t_env *mlx)
+static int	close_window(t_env *env)
 {
-	env_finish(mlx, EXIT_SUCCESS);
+	env_finish(env, EXIT_SUCCESS);
 	return (0);
 }
 

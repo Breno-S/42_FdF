@@ -6,7 +6,7 @@
 /*   By: brensant <brensant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 15:20:31 by brensant          #+#    #+#             */
-/*   Updated: 2025/10/14 01:22:22 by brensant         ###   ########.fr       */
+/*   Updated: 2025/10/14 17:32:36 by brensant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ static void	transform_draw(t_env *env, t_vertex v0, t_vertex v1)
  */
 void	draw_map(t_env *env)
 {
-	int		i;
-	int		j;
+	int	i;
+	int	j;
 
 	i = -1;
 	while (++i < env->map->rows - 1)

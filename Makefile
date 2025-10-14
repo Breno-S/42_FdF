@@ -1,6 +1,6 @@
 NAME        := fdf
 CC          := cc
-CFLAGS      := -Wall -Wextra -Werror -g
+CFLAGS      := -Wall -Wextra -Werror
 AR          := ar rcs
 RM          := rm -f
 
@@ -56,12 +56,12 @@ bonus: $(LIBFT) $(MLX) $(BONUS_OBJS)
 $(NAME): $(LIBFT) $(MLX) $(MANDATORY_OBJS)
 	$(CC) -o $(NAME) $(MANDATORY_OBJS) $(LDFLAGS) $(LDLIBS)
 
-# Mandatório
+# Mandatory
 $(BUILD_DIR)/%.o: $(MANDATORY_DIR)/%.c
 	@mkdir -p $(BUILD_DIR)
 	$(CC) $(addprefix -I,$(INC_MANDATORY)) $(CFLAGS) -c $< -o $@
 
-# Bônus
+# Bonus
 $(BUILD_DIR)/%.o: $(BONUS_DIR)/%.c
 	@mkdir -p $(BUILD_DIR)
 	$(CC) $(addprefix -I,$(INC_BONUS)) $(CFLAGS) -c $< -o $@
